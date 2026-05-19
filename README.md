@@ -1,3 +1,4 @@
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/casVlkiB)
 # Plantilla de Tesis/Tesina - Universidad Politécnica de Victoria (UPV)
 
 Este repositorio contiene la plantilla oficial para la elaboración del reporte de estadías TSU de ingeniería en tecnologías de la información e innovación digital, diseñada para los estudiantes de la Universidad Politécnica de Victoria (UPV). La plantilla está basada en \LaTeX, una herramienta profesional para la creación de documentos científicos y técnicos, lo que garantiza un formato consistente y de alta calidad para su trabajo de investigación.
