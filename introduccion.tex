@@ -1,45 +1,114 @@
 \section{Introducción}
 \label{ch:introduccion}
+En el presente documento se presenta el proyecto \textbf{\NombreProyecto}, el cual se enfoca en la ejecución, optimización y documentación de las operaciones de monitoreo y soporte de TI para clientes corporativos. El sistema busca asegurar la continuidad operativa mediante la supervisión exhaustiva de infraestructuras complejas que abarcan desde entornos On-Premise hasta despliegues multi-nube.
 
-La introducción es la primera sección sustantiva de la tesis y tiene como propósito principal guiar al lector a través del contexto y la relevancia del estudio. En ella, se presenta el problema de investigación, se establecen los objetivos, se justifica la realización del trabajo y se delinean los alcances y limitaciones. Debe ser escrita de forma clara y concisa, capturando el interés del lector y proporcionando una visión general de lo que se abordará en los capítulos subsiguientes.
+En la actualidad, garantizar la alta disponibilidad de los servicios requiere que las mesas de ayuda evolucionen hacia centros de operaciones (NOC/SOC) capaces de detectar anomalías preventivamente. El desafío principal radica en mitigar los riesgos de caídas de servicio, reducir la cantidad de falsos positivos y asegurar el cumplimiento estricto de los Acuerdos de Nivel de Servicio (SLA) frente a la creciente complejidad tecnológica.
+
+Para hacer frente a esta necesidad, el proyecto establece una solución basada en cuatro ejes principales: la gestión rigurosa del ciclo de vida de incidentes mediante plataformas ITSM como ServiceNow y ZenDesk; la validación técnica de integraciones usando TIBCO Scribe y Business Works; el monitoreo proactivo de recursos con herramientas especializadas como OpManager y DataDog; y la depuración de paneles de visualización en Grafana para consolidar métricas y agilizar la toma de decisiones operativas.
+
+A lo largo de este documento se definen todos los procesos e información relevante del proyecto, abordando desde el problema que se pretende resolver, los objetivos establecidos y la justificación de la propuesta, hasta los alcances y limitaciones que delimitan su desarrollo.
+
+% dividir en sub secciones
 
 \subsection{Antecedentes}
 \label{sec:antecedentes}
+En los últimos años, la gestión de infraestructuras de Tecnologías de la Información (TI) ha experimentado una transición acelerada desde centros de datos puramente físicos (On-Premise) hacia ecosistemas híbridos y multi-nube. Esta evolución ha permitido a las organizaciones escalar sus operaciones, pero también ha incrementado exponencialmente la complejidad de su administración.
 
-En esta sección, se presenta una revisión concisa y pertinente de investigaciones previas, literatura existente y el estado del arte relacionado con el tema de la tesis. El objetivo es situar el trabajo actual dentro del conocimiento acumulado, identificar vacíos en la investigación y demostrar la originalidad y la necesidad del estudio propuesto. Se deben citar adecuadamente las fuentes, mostrando cómo el trabajo se construye sobre cimientos previos o cómo aborda aspectos no resueltos.
+Históricamente, el soporte técnico operaba bajo un modelo reactivo: las mesas de ayuda (Help Desk) esperaban a que el usuario final reportara una falla para iniciar el proceso de resolución. Sin embargo, en entornos corporativos de alta disponibilidad, este modelo resulta ineficiente y riesgoso, ya que el tiempo de inactividad de un servidor o la interrupción de una interfaz de datos se traduce en pérdidas económicas y operativas significativas.
+
+Para mitigar estos riesgos, la industria ha migrado hacia la implementación de Centros de Operaciones de Red y Seguridad (NOC/SOC), cuyo enfoque principal es el monitoreo proactivo. A pesar de contar con herramientas de monitoreo, muchas organizaciones aún enfrentan el reto de unificar sus alertas, depurar falsos positivos y gestionar eficientemente los Acuerdos de Nivel de Servicio (SLA) en plataformas de Gestión de Servicios de TI (ITSM). El presente proyecto surge ante la necesidad de optimizar estas operaciones de monitoreo y la atención de incidentes para garantizar la continuidad del servicio en infraestructuras complejas.
+
+\subsubsection{Antecedentes de la empresa}
+\label{sec:antecedentes_empresa}
+
+Honne S.A. de C.V. es una empresa especializada en transformación tecnológica que acompaña a las organizaciones en la evolución de su operación, desde la estrategia hasta la ejecución. A través de sus capacidades avanzadas en tecnologías de la nube (\textit{cloud}), gestión de datos e Inteligencia Artificial, la empresa ayuda a construir entornos más eficientes, escalables y preparados para el crecimiento de diversos sectores industriales.
+
+Su misión institucional es ``Crear valor para nuestros clientes a través de la Innovación y las Tecnologías de la Información, utilizando nuestro portafolio de servicios, experiencia y capacidades; para resolver sus desafíos actuales y futuros''. Asimismo, su visión se enfoca en ``Ser la empresa preferida a nivel mundial para la gestión de tecnologías de nube pública y la creación de servicios de próxima generación, de forma segura y alineada con las mejores prácticas''.
+
+Para garantizar la calidad y seguridad en cada proyecto, Honne opera bajo rigurosos estándares internacionales y certificaciones clave en la industria, tales como ISO 9001, ISO 20000, ISO 27001, ITIL, CMMI y TOGAF. Su cultura laboral se rige por la filosofía \textit{One Team\textregistered}, la cual promueve la integración total con cada cliente asumiendo un alto nivel de compromiso, empatía y sentido de urgencia frente a los desafíos tecnológicos.
+
+El desarrollo del presente proyecto se enmarca dentro de su Centro de Operación y Excelencia Multicloud (CCoE), con sede en Ciudad Victoria, Tamaulipas. Desde este núcleo tecnológico, la empresa gestiona y opera entornos de TI para clientes en México, Estados Unidos, Europa y Latinoamérica. Es en este entorno operativo donde se ejecutan las labores de soporte técnico, el monitoreo preventivo de infraestructuras (NOC/SOC) y la validación de integraciones, asegurando así la continuidad, eficiencia y calidad ininterrumpida de los servicios empresariales.
+
+\subsubsection{Antecedentes teóricos}
+\label{sec:antecedentes_teoricos}
+\textbf{Gestión de Servicios de TI (ITSM) y SLA} \\ La Gestión de Servicios de TI (ITSM) se refiere al enfoque estratégico para diseñar, entregar, gestionar y mejorar la forma en que las empresas utilizan la tecnología de la información. Un componente crítico de ITSM es el cumplimiento de los Acuerdos de Nivel de Servicio (SLA), que son contratos que definen el nivel de servicio esperado por el cliente, estableciendo métricas estrictas para los tiempos de respuesta y resolución de incidentes mediante plataformas como ServiceNow o Zendesk.
+
+Centros de Operaciones (NOC/SOC)
+Un Centro de Operaciones de Red (NOC) es una ubicación centralizada donde administradores y técnicos de TI supervisan, monitorean y mantienen las redes y telecomunicaciones de una empresa de forma ininterrumpida. La evolución de los NOC modernos requiere el uso de herramientas de monitoreo de infraestructura (como OpManager, DataDog o AppManager) para vigilar el consumo de CPU, memoria y conectividad, previniendo los estados de "Device Down".
+
+Middleware e Integración de Sistemas (TIBCO)
+En entornos corporativos donde conviven múltiples aplicaciones heterogéneas (como sistemas de finanzas, plataformas escolares y CRM), es necesario un software intermediario o "Middleware" que traduzca y transporte los datos entre ellos. Soluciones como TIBCO Scribe y TIBCO Business Works permiten automatizar la transferencia de datos y ejecutar catálogos nocturnos, por lo que el monitoreo de sus agentes y la lectura de sus registros de errores (logs) son vitales para la integridad de la información institucional.
+
+Entornos Híbridos y Multi-Nube
+Un entorno multi-nube implica el uso de múltiples servicios de computación en la nube de diferentes proveedores (como Amazon Web Services, Microsoft Azure y Google Cloud Platform) en una sola arquitectura. La gestión de estos entornos requiere técnicas de monitoreo unificadas y la creación de tableros de control centralizados (Dashboards), utilizando herramientas como Grafana y Prometheus para consolidar métricas dispersas y facilitar la toma de decisiones operativas.
+
 
 \subsection{Definición del Problema}
 \label{sec:problema}
 
-Aquí se describe de manera clara y precisa el problema que la tesis busca resolver. Es fundamental articular el problema de forma que sea comprensible, relevante y factible de investigar. Esta sección debe responder a preguntas como: ¿Qué situación actual es insatisfactoria o genera una necesidad? ¿Qué aspectos de este problema no han sido abordados adecuadamente por investigaciones anteriores? La definición del problema puede ser formulada como una pregunta de investigación o una declaración clara de la brecha de conocimiento.
+El problema que se busca resolver es la ineficiencia y el riesgo de interrupción operativa en la gestión de infraestructuras tecnológicas complejas que abarcan entornos locales (On-Premise) y multi-nube. En la actualidad, muchas mesas de servicio operan bajo un modelo reactivo, esperando el reporte de los usuarios en lugar de detectar anomalías preventivamente. Esta falta de monitoreo proactivo, sumada a la saturación de herramientas con alertas redundantes y falsos positivos, genera retrasos significativos en la categorización, escalamiento y resolución de incidentes, lo que frecuentemente resulta en el incumplimiento de los Acuerdos de Nivel de Servicio (SLA) y afecta la continuidad de los aplicativos críticos de los clientes.
+
+Frente a esta problemática, el presente proyecto propone la optimización integral de las operaciones de monitoreo y soporte de TI dentro de un Centro de Operaciones (NOC/SOC). La solución contempla la validación constante de integraciones clave mediante TIBCO (Scribe y Business Works), la gestión rigurosa del ciclo de vida de los incidentes a través de plataformas ITSM (ServiceNow, ZenDesk) y la estructuración de paneles de visualización (Grafana, Prometheus) que permitan consolidar las alertas reales para facilitar la toma de decisiones.
+
+Con base en lo anterior, la pregunta de investigación que guía este trabajo es: ¿De qué manera la optimización del monitoreo proactivo y la gestión estructurada de incidentes ITSM pueden asegurar la alta disponibilidad operativa y reducir el incumplimiento de los SLA en infraestructuras tecnológicas de entornos híbridos y multi-nube?
 
 \subsection{Objetivos}
 \label{sec:objetivos}
 
-Los objetivos son las metas que se esperan alcanzar con la realización de la investigación. Deben ser claros, medibles, alcanzables, relevantes y con un tiempo definido (SMART, por sus siglas en inglés). Se dividen en un objetivo general y varios objetivos específicos.
-
 \subsubsection{Objetivo General}
 \label{subsec:objetivo_general}
 
-El objetivo general expresa el propósito fundamental del estudio en términos amplios. Es la meta principal que se busca lograr y generalmente abarca la totalidad de la investigación. Debe ser coherente con la definición del problema.
-\begin{itemize}
-    \item \textbf{Ejemplo:} Desarrollar un sistema automatizado para la detección temprana de fallas en turbinas eólicas utilizando técnicas de aprendizaje automático.
-\end{itemize}
+Asegurar la alta disponibilidad y el rendimiento óptimo de la infraestructura tecnológica y los aplicativos de los clientes, mediante la ejecución de rondines de monitoreo proactivo, la validación de integraciones de software y la gestión eficiente de incidentes. Se espera optimizar la visualización de datos (mediante Grafana y Prometheus) y agilizar la categorización, escalamiento y resolución de tickets en plataformas ITSM, garantizando el cumplimiento de los SLA y mejorando la comunicación entre el nivel operativo y la torre de especialistas (SysAdmin).
 
 \subsubsection{Objetivos Específicos}
 \label{subsec:objetivos_especificos}
 
-Los objetivos específicos detallan los pasos o las acciones concretas que se llevarán a cabo para alcanzar el objetivo general. Son tareas más pequeñas y desglosadas que, al ser cumplidas, permiten la consecución del objetivo principal.
 \begin{itemize}
-    \item \textbf{Ejemplo 1:} Recopilar y preprocesar un conjunto de datos de vibraciones y parámetros operativos de turbinas eólicas.
-    \item \textbf{Ejemplo 2:} Implementar y evaluar diferentes algoritmos de aprendizaje automático para la clasificación de estados operativos (normal, pre-falla, falla).
-    \item \textbf{Ejemplo 3:} Diseñar una interfaz de usuario para la visualización de alertas y el monitoreo en tiempo real del estado de las turbinas.
+    \item \textbf{Gestión de Incidentes (ITSM):} Controlar el ciclo de vida de las alertas operativas mediante la creación, asignación, categorización y seguimiento de tickets en plataformas como ServiceNow y ZenDesk, mitigando riesgos de vencimiento en los tiempos de resolución establecidos por los SLA.
+    \item \textbf{Supervisión de Integraciones y Aplicativos:} Validar la correcta ejecución de los Manuales de Operación (MOP) correspondientes a las plataformas de integración TIBCO Scribe y TIBCO Business Works, supervisando la estabilidad de los catálogos nocturnos, el reinicio de agentes locales y el análisis de logs de errores en Google Cloud Platform (GCP).
+    \item \textbf{Monitoreo Proactivo de Infraestructura:} Identificar de forma temprana anomalías de red, saturación de recursos críticos (CPU, memoria y disco) y estados de inactividad de servidores utilizando herramientas de supervisión como OpManager, AppManager, DataDog y consolas nativas de entornos multi-nube (AWS, Azure y GCP).
+    \item \textbf{Optimización de Plataformas de Visualización:} Estructurar y depurar paneles de control centralizados en Grafana y Prometheus mediante el uso de transformaciones y extensiones de tablas dinámicas, consolidando el historial y estado de las alarmas activas con sus respectivas marcas de tiempo para agilizar la toma de decisiones.
 \end{itemize}
+
+%XD por poner una tabla 
+\subsection{Tabla comparativa}
+\label{sec:tabla_comparativa}
+
+Con el fin de evidenciar las mejoras operativas que introduce el presente proyecto, en la Tabla \ref{tab:comparativa} se contrastan los procesos de soporte realizados de manera tradicional (modelo reactivo) frente a la operación del sistema propuesto (monitoreo proactivo), abarcando aspectos como la gestión de incidentes, validación de integraciones, manejo de falsos positivos y visualización de métricas.
+
+\begin{table}[H]
+\centering
+\caption{Comparativa entre el soporte tradicional y la optimización de monitoreo}
+\label{tab:comparativa}
+\begin{tabular}{|p{3.5cm}|p{5cm}|p{5cm}|}
+\hline
+\textbf{Aspecto} & \textbf{Antes (Modelo Reactivo)} & \textbf{Después (Modelo Proactivo)} \\
+\hline
+Enfoque de soporte & Reactivo (Mesa de ayuda tradicional); se atiende la falla tras el reporte del usuario final. & Proactivo (NOC/SOC); detección temprana de anomalías antes de afectar la continuidad del servicio. \\
+\hline
+Gestión de incidentes y SLA & Seguimiento disperso, alto riesgo de vencimiento (quemar) los Acuerdos de Nivel de Servicio (SLA). & Ciclo de vida controlado en ITSM (ServiceNow/ZenDesk) con asignación ágil y documentación cruzada. \\
+\hline
+Supervisión de integraciones & Intervención manual solo cuando fallan las transferencias de datos o catálogos nocturnos. & Validación estructurada de MOPs para TIBCO Scribe y Business Works, supervisando agentes y logs. \\
+\hline
+Manejo de alertas & Saturación de herramientas con alertas redundantes y alto volumen de falsos positivos. & Filtrado efectivo descartando falsos positivos mediante validaciones (ej. ventanas de 15 minutos o 5 polls). \\
+\hline
+Visualización de métricas & Datos dispersos navegando manualmente por múltiples consolas nativas (AWS, Azure, GCP). & Métricas consolidadas en paneles centralizados de Grafana/Prometheus con \textit{Business Tables}. \\
+\hline
+Disponibilidad de información & Historial de fallas difícil de rastrear y sin marcas de tiempo claras para el análisis. & Alarmas activas consolidadas con su respectivo \textit{timestamp} para agilizar la toma de decisiones. \\
+\hline
+\end{tabular}
+\end{table}
 
 \subsection{Justificación}
 \label{sec:justificacion}
 
-La justificación explica por qué es importante y relevante llevar a cabo la investigación. Se deben argumentar los beneficios y la utilidad del estudio desde diferentes perspectivas: teórica, práctica, social, económica, tecnológica, etc. Responde a la pregunta: ¿Por qué vale la pena invertir tiempo y recursos en esta investigación? Aquí se resaltan los aportes que la tesis generará al campo del conocimiento o a la solución de problemas específicos.
+El desarrollo de este proyecto se justifica desde diversas perspectivas debido al impacto directo que tiene en la eficiencia operativa de la organización y en la calidad del servicio entregado a los clientes corporativos.
+
+Desde una perspectiva tecnológica, el proyecto representa una modernización indispensable en la administración de infraestructuras complejas. La transición hacia entornos híbridos y multi-nube exige el dominio de herramientas avanzadas de supervisión y la centralización de datos dispersos. Optimizar el uso de plataformas como Grafana, Prometheus, DataDog y OpManager permite consolidar métricas en tiempo real, transformando datos aislados en paneles de control analíticos que elevan las capacidades de diagnóstico técnico.
+
+Desde el punto de vista operacional y práctico, la relevancia radica en la estandarización y optimización de los procesos de soporte. La validación rigurosa de los Manuales de Operación (MOP) para las interfaces de TIBCO (Scribe y Business Works) asegura la continuidad de catálogos críticos y transferencias de datos sin requerir intervención manual constante. Asimismo, el establecimiento de filtros precisos y ventanas de validación para descartar falsos positivos optimiza el tiempo de la torre de especialistas (SysAdmin), permitiéndoles enfocarse únicamente en incidentes reales que pongan en riesgo la disponibilidad de los aplicativos.
+
+Finalmente, desde un enfoque económico y de negocio, el proyecto mitiga directamente los riesgos financieros asociados a la interrupción de servicios de TI. Las caídas de infraestructura se traducen en severas penalizaciones por el incumplimiento de los Acuerdos de Nivel de Servicio (SLA). Implementar una gestión estructurada y proactiva de incidentes en plataformas ITSM como ServiceNow y ZenDesk garantiza que las alertas se atiendan y documenten dentro de las ventanas de tiempo establecidas, protegiendo la continuidad de operaciones de cuentas de alto perfil y asegurando la calidad del servicio de forma sostenida.
 
 \subsection{Alcances y Limitaciones}
 \label{sec:alcances_limitaciones}
@@ -47,13 +116,37 @@ La justificación explica por qué es importante y relevante llevar a cabo la in
 \subsubsection{Alcances}
 \label{subsec:alcances}
 
-Los alcances definen claramente hasta dónde llegará el estudio, qué aspectos cubrirá y cuáles serán sus fronteras. Establecen qué elementos, variables, poblaciones o contextos serán incluidos en la investigación. Es esencial para evitar expectativas irrealistas y para mantener el enfoque del trabajo.
+\begin{itemize}
+    \item \textbf{Supervisión Multi-Nube e Infraestructura:} El monitoreo abarca tanto servidores locales (\textit{On-Premise}) como instancias en la nube pública a través de las consolas de Amazon Web Services (AWS), Microsoft Azure y Google Cloud Platform (GCP), utilizando herramientas centralizadas como OpManager, AppManager y DataDog.
+    \item \textbf{Gestión de Incidentes bajo el Ciclo ITSM:} Cobertura total del flujo de alertas mediante el uso de ServiceNow y ZenDesk para el registro, categorización, asignación y seguimiento de tickets, implementando un esquema de documentación cruzada (folios de notificación para el cliente y folios de análisis interno).
+    \item \textbf{Validación de Integraciones Middleware:} Supervisión del estado y ejecución de las interfaces críticas mediante TIBCO Scribe y TIBCO Business Works, incluyendo el control de los catálogos nocturnos, el reinicio guiado de agentes y la revisión de logs de Error Reporting en GCP.
+    \item \textbf{Optimización y QA en Plataformas de Monitoreo:} Creación de entornos de prueba controlados para la depuración y ajuste de consultas (\textit{queries}) en Grafana y Prometheus, implementando complementos dinámicos como \textit{Business Table} para enriquecer la inserción de comentarios técnicos.
+\end{itemize}
 
 \subsubsection{Limitaciones}
 \label{subsec:limitaciones}
 
-Las limitaciones son los factores externos o internos que podrían restringir la validez, generalización o profundidad de los resultados de la investigación. Es importante identificarlas honestamente, ya que demuestran un pensamiento crítico por parte del investigador. Pueden incluir restricciones de tiempo, recursos, acceso a datos, metodológicas, etc.
+\begin{itemize}
+    \item \textbf{Dependencia de Licenciamiento y Permisos:} El acceso a las métricas avanzadas, consolas de infraestructura corporativa y plataformas de mesa de servicio está restringido por los privilegios de usuario y contratos de licenciamiento previamente establecidos por la organización y sus clientes de terceros.
+    \item \textbf{Modalidad de Trabajo Híbrida:} La ejecución del proyecto se realiza bajo un esquema mixto (\textit{Home Office} y días presenciales). Esto limita la comunicación directa interpersonal, haciendo que el escalamiento de incidentes hacia los SysAdmin y la resolución de alertas dependan críticamente de la disponibilidad de herramientas de mensajería (Teams, WhatsApp) y de la estabilidad en los accesos remotos por VPN.
+    \item \textbf{Calidad de los Datos de Entrada:} La eficiencia en el filtrado de alarmas y estados de error en Grafana está condicionada por la estructura y formato de los registros históricos de logs generados originalmente por los sistemas del cliente, no teniendo control sobre anomalías previas en el código fuente de los aplicativos.
+\end{itemize}
 
+\subsection{Temas tentativos del marco teórico}
+\label{sec:temas_tentativos_marco_teorico}
+
+\begin{itemize}
+    \item Gestión de Servicios de TI (ITSM) y el ciclo de vida de los incidentes.
+    \item Acuerdos de Nivel de Servicio (SLA) y su impacto en la continuidad operativa.
+    \item Centros de Operaciones (NOC/SOC) y la transición del soporte reactivo al monitoreo proactivo.
+    \item Arquitecturas de infraestructura tecnológica en entornos Híbridos y Multi-Nube (AWS, Azure, GCP).
+    \item Middleware e Integración de Aplicaciones Empresariales (EAI) utilizando ecosistemas TIBCO.
+    \item Telemetría, observabilidad y herramientas de monitoreo de red (OpManager, DataDog, AppManager).
+    \item Visualización de datos y consolidación de métricas operativas (Grafana y Prometheus).
+    \item Estrategias de reducción de ruido, filtrado de alertas y depuración de falsos positivos.
+\end{itemize}
+
+\iffalse
 \subsection{Ejemplos de Tablas e Inclusión de Imágenes}
 \label{sec:ejemplos_elementos}
 
@@ -110,3 +203,5 @@ Las imágenes, gráficos o diagramas son cruciales para complementar la explicac
 Incluso es posible combinar varias imágenes en una sola figura, como se muestra en la Figura \ref{fig:comparacion_datos}, utilizando el paquete `subcaption`.
 
 Asegúrense de que todas las figuras y tablas estén debidamente referenciadas en el texto y que su contenido sea autoexplicativo, utilizando los pies de figura y títulos de tabla de manera efectiva.
+
+\fi
