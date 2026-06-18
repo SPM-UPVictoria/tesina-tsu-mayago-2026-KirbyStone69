@@ -1,47 +1,77 @@
 \section{Introducción}
 \label{ch:introduccion}
-En el presente documento se presenta el proyecto \textbf{\NombreProyecto}, el cual se enfoca en la ejecución, optimización y documentación de las operaciones de monitoreo y soporte de TI para clientes corporativos. El sistema busca asegurar la continuidad operativa mediante la supervisión exhaustiva de infraestructuras complejas que abarcan desde entornos On-Premise hasta despliegues multi-nube.
 
-En la actualidad, garantizar la alta disponibilidad de los servicios requiere que las mesas de ayuda evolucionen hacia centros de operaciones (NOC/SOC) capaces de detectar anomalías preventivamente. El desafío principal radica en mitigar los riesgos de caídas de servicio, reducir la cantidad de falsos positivos y asegurar el cumplimiento estricto de los Acuerdos de Nivel de Servicio (SLA) frente a la creciente complejidad tecnológica.
+En el entorno empresarial actual, las Tecnologías de la Información (TI) constituyen el núcleo estratégico para que las organizaciones modernas operen y mantengan su competitividad \cite{palos-sanchez_modelos_2019}. Históricamente, la infraestructura tecnológica dependía casi por completo de servidores físicos locales (entornos \textit{On-Premise}); sin embargo, la exigencia de agilidad operativa ha impulsado la adopción masiva del \textit{Cloud Computing} \cite{palos-sanchez_modelos_2019}. Este modelo de despliegue dinámico permite aprovisionar redes, servidores y aplicaciones bajo demanda, transformando equipos estáticos en servicios flexibles que escalan sin requerir un alto esfuerzo administrativo \cite{palos-sanchez_modelos_2019}.
 
-Para hacer frente a esta necesidad, el proyecto establece una solución basada en cuatro ejes principales: la gestión rigurosa del ciclo de vida de incidentes mediante plataformas ITSM como ServiceNow y ZenDesk; la validación técnica de integraciones usando TIBCO Scribe y Business Works; el monitoreo proactivo de recursos con herramientas especializadas como OpManager y DataDog; y la depuración de paneles de visualización en Grafana para consolidar métricas y agilizar la toma de decisiones operativas.
+A pesar de estas ventajas, la administración de arquitecturas híbridas y distribuidas presenta retos técnicos significativos. Los métodos tradicionales de soporte operan bajo un esquema reactivo, caracterizado por la falta de integración y la dependencia de la gestión manual de incidentes \cite{Arias_Pro_2025}. Esta metodología genera retrasos inaceptables en la identificación de fallas, lo que impacta directamente en la disponibilidad de los servicios \cite{Arias_Pro_2025}. Para mitigar estas interrupciones, la industria exige evolucionar hacia un enfoque centralizado y proactivo, respaldado por marcos de referencia como ITIL, e integrando herramientas de observabilidad que permitan predecir cuellos de botella antes de que afecten la operación y los SLA \cite{saavedra_implementacion_2023}.
 
-A lo largo de este documento se definen todos los procesos e información relevante del proyecto, abordando desde el problema que se pretende resolver, los objetivos establecidos y la justificación de la propuesta, hasta los alcances y limitaciones que delimitan su desarrollo.
+Para dar respuesta a esta necesidad latente, el presente documento detalla el desarrollo e implementación del proyecto \textbf{\NombreProyecto}. Este trabajo técnico se ejecuta como parte de las estadías profesionales dentro del Centro de Operación y Excelencia Multicloud (CCoE) de la empresa Honne S.A. de C.V., teniendo como objetivo la optimización y documentación de las operaciones de monitoreo preventivo y soporte de TI para clientes corporativos de alta disponibilidad.
 
-% dividir en sub secciones
+La solución técnica planteada se estructura sobre cuatro ejes operativos principales: la gestión rigurosa del ciclo de vida de los incidentes mediante plataformas ITSM (ServiceNow y ZenDesk) para garantizar el estricto cumplimiento de los Acuerdos de Nivel de Servicio (SLA); la validación sistemática de integraciones \textit{middleware} empleando TIBCO Scribe y Business Works; el monitoreo proactivo de la infraestructura multi-nube a través de consolas nativas y herramientas de telemetría (OpManager, DataDog); y la depuración de paneles de visualización centralizada en Grafana y Prometheus, consolidando métricas para agilizar la toma de decisiones.
 
 \subsection{Antecedentes}
 \label{sec:antecedentes}
-En los últimos años, la gestión de infraestructuras de Tecnologías de la Información (TI) ha experimentado una transición acelerada desde centros de datos puramente físicos (On-Premise) hacia ecosistemas híbridos y multi-nube. Esta evolución ha permitido a las organizaciones escalar sus operaciones, pero también ha incrementado exponencialmente la complejidad de su administración.
+En los últimos años, la gestión de infraestructuras de Tecnologías de la Información (TI) ha experimentado una transición acelerada desde centros de datos puramente físicos (On-Premise) hacia ecosistemas híbridos y multi-nube. Esta evolución ha permitido a las organizaciones escalar sus operaciones, pero también ha incrementado exponencialmente la complejidad de su administración\cite{palos-sanchez_modelos_2019}.
 
-Históricamente, el soporte técnico operaba bajo un modelo reactivo: las mesas de ayuda (Help Desk) esperaban a que el usuario final reportara una falla para iniciar el proceso de resolución. Sin embargo, en entornos corporativos de alta disponibilidad, este modelo resulta ineficiente y riesgoso, ya que el tiempo de inactividad de un servidor o la interrupción de una interfaz de datos se traduce en pérdidas económicas y operativas significativas.
+Históricamente, el soporte técnico operaba bajo un modelo reactivo: las mesas de ayuda (Help Desk) esperaban a que el usuario final reportara una falla para iniciar el proceso de resolución. Sin embargo, en entornos corporativos de alta disponibilidad, este modelo resulta ineficiente y riesgoso, ya que el tiempo de inactividad de un servidor o la interrupción de una interfaz de datos se traduce en pérdidas económicas y operativas significativas\cite{Arias_Pro_2025}.
 
-Para mitigar estos riesgos, la industria ha migrado hacia la implementación de Centros de Operaciones de Red y Seguridad (NOC/SOC), cuyo enfoque principal es el monitoreo proactivo. A pesar de contar con herramientas de monitoreo, muchas organizaciones aún enfrentan el reto de unificar sus alertas, depurar falsos positivos y gestionar eficientemente los Acuerdos de Nivel de Servicio (SLA) en plataformas de Gestión de Servicios de TI (ITSM). El presente proyecto surge ante la necesidad de optimizar estas operaciones de monitoreo y la atención de incidentes para garantizar la continuidad del servicio en infraestructuras complejas.
+Para mitigar estos riesgos, la industria ha migrado hacia la implementación de Centros de Operaciones de Red y Seguridad (NOC/SOC), cuyo enfoque principal es el monitoreo proactivo. A pesar de contar con herramientas de monitoreo, muchas organizaciones aún enfrentan el reto de unificar sus alertas, depurar falsos positivos y gestionar eficientemente los Acuerdos de Nivel de Servicio (SLA) en plataformas de Gestión de Servicios de TI (ITSM). El presente proyecto surge ante la necesidad de optimizar estas operaciones de monitoreo y la atención de incidentes para garantizar la continuidad del servicio en infraestructuras complejas\cite{Arias_Pro_2025}.
 
 \subsubsection{Antecedentes de la empresa}
 \label{sec:antecedentes_empresa}
 
-Honne S.A. de C.V. es una empresa especializada en transformación tecnológica que acompaña a las organizaciones en la evolución de su operación, desde la estrategia hasta la ejecución. A través de sus capacidades avanzadas en tecnologías de la nube (\textit{cloud}), gestión de datos e Inteligencia Artificial, la empresa ayuda a construir entornos más eficientes, escalables y preparados para el crecimiento de diversos sectores industriales.
+Honne S.A. de C.V. es una empresa especializada en transformación tecnológica que acompaña a las organizaciones en la evolución de su operación, desde la estrategia hasta la ejecución. A través de sus capacidades avanzadas en tecnologías de la nube (\textit{cloud}), gestión de datos e Inteligencia Artificial, la empresa ayuda a construir entornos más eficientes, escalables y preparados para el crecimiento de diversos sectores industriales\cite{honne_oficial_2026}.
 
-Su misión institucional es ``Crear valor para nuestros clientes a través de la Innovación y las Tecnologías de la Información, utilizando nuestro portafolio de servicios, experiencia y capacidades; para resolver sus desafíos actuales y futuros''. Asimismo, su visión se enfoca en ``Ser la empresa preferida a nivel mundial para la gestión de tecnologías de nube pública y la creación de servicios de próxima generación, de forma segura y alineada con las mejores prácticas''.
+Su misión institucional es ``Crear valor para nuestros clientes a través de la Innovación y las Tecnologías de la Información, utilizando nuestro portafolio de servicios, experiencia y capacidades; para resolver sus desafíos actuales y futuros''. Asimismo, su visión se enfoca en ``Ser la empresa preferida a nivel mundial para la gestión de tecnologías de nube pública y la creación de servicios de próxima generación, de forma segura y alineada con las mejores prácticas''\cite{honne_oficial_2026}..
 
-Para garantizar la calidad y seguridad en cada proyecto, Honne opera bajo rigurosos estándares internacionales y certificaciones clave en la industria, tales como ISO 9001, ISO 20000, ISO 27001, ITIL, CMMI y TOGAF. Su cultura laboral se rige por la filosofía \textit{One Team\textregistered}, la cual promueve la integración total con cada cliente asumiendo un alto nivel de compromiso, empatía y sentido de urgencia frente a los desafíos tecnológicos.
+Para garantizar la calidad y seguridad en cada proyecto, Honne opera bajo rigurosos estándares internacionales y certificaciones clave en la industria, tales como ISO 9001, ISO 20000, ISO 27001, ITIL, CMMI y TOGAF. Su cultura laboral se rige por la filosofía \textit{One Team\textregistered}, la cual promueve la integración total con cada cliente asumiendo un alto nivel de compromiso, empatía y sentido de urgencia frente a los desafíos tecnológicos\cite{honne_oficial_2026}..
 
-El desarrollo del presente proyecto se enmarca dentro de su Centro de Operación y Excelencia Multicloud (CCoE), con sede en Ciudad Victoria, Tamaulipas. Desde este núcleo tecnológico, la empresa gestiona y opera entornos de TI para clientes en México, Estados Unidos, Europa y Latinoamérica. Es en este entorno operativo donde se ejecutan las labores de soporte técnico, el monitoreo preventivo de infraestructuras (NOC/SOC) y la validación de integraciones, asegurando así la continuidad, eficiencia y calidad ininterrumpida de los servicios empresariales.
+El desarrollo del presente proyecto se enmarca dentro de su Centro de Operación y Excelencia Multicloud (CCoE), con sede en Ciudad Victoria, Tamaulipas. Desde este núcleo tecnológico, la empresa gestiona y opera entornos de TI para clientes en México, Estados Unidos, Europa y Latinoamérica. Es en este entorno operativo donde se ejecutan las labores de soporte técnico, el monitoreo preventivo de infraestructuras (NOC/SOC) y la validación de integraciones, asegurando así la continuidad, eficiencia y calidad ininterrumpida de los servicios empresariales\cite{honne_oficial_2026}..
 
-\subsubsection{Antecedentes teóricos}
+\subsubsection{Antecedentes teóricos y Trabajos Relacionados}
 \label{sec:antecedentes_teoricos}
-\textbf{Gestión de Servicios de TI (ITSM) y SLA} \\ La Gestión de Servicios de TI (ITSM) se refiere al enfoque estratégico para diseñar, entregar, gestionar y mejorar la forma en que las empresas utilizan la tecnología de la información. Un componente crítico de ITSM es el cumplimiento de los Acuerdos de Nivel de Servicio (SLA), que son contratos que definen el nivel de servicio esperado por el cliente, estableciendo métricas estrictas para los tiempos de respuesta y resolución de incidentes mediante plataformas como ServiceNow o Zendesk.
 
-Centros de Operaciones (NOC/SOC)
-Un Centro de Operaciones de Red (NOC) es una ubicación centralizada donde administradores y técnicos de TI supervisan, monitorean y mantienen las redes y telecomunicaciones de una empresa de forma ininterrumpida. La evolución de los NOC modernos requiere el uso de herramientas de monitoreo de infraestructura (como OpManager, DataDog o AppManager) para vigilar el consumo de CPU, memoria y conectividad, previniendo los estados de "Device Down".
+\textbf{Centros de Operaciones (NOC/SOC) y Monitoreo Proactivo} \\ 
+Un Centro de Operaciones de Red (NOC) es una ubicación centralizada donde administradores y técnicos de TI supervisan, monitorean y mantienen las redes y telecomunicaciones de una empresa de forma ininterrumpida. La evolución de los NOC modernos requiere el uso de herramientas de monitoreo de infraestructura para vigilar métricas críticas y prevenir fallas. 
 
-Middleware e Integración de Sistemas (TIBCO)
-En entornos corporativos donde conviven múltiples aplicaciones heterogéneas (como sistemas de finanzas, plataformas escolares y CRM), es necesario un software intermediario o "Middleware" que traduzca y transporte los datos entre ellos. Soluciones como TIBCO Scribe y TIBCO Business Works permiten automatizar la transferencia de datos y ejecutar catálogos nocturnos, por lo que el monitoreo de sus agentes y la lectura de sus registros de errores (logs) son vitales para la integridad de la información institucional.
+En este contexto, Arias (2025) desarrolló el proyecto SIMAI, proponiendo una arquitectura basada en Microsoft Azure para abordar las limitaciones del monitoreo tradicional, buscando centralizar alertas y reducir la intervención manual \cite{Arias_Pro_2025}. Sin embargo, dicho trabajo se limitó a un diseño conceptual sin implementación práctica \cite{Arias_Pro_2025}. A diferencia de esa propuesta, el \textbf{\NombreProyecto} supera esa limitante al ejecutar validaciones en un entorno de producción real, aplicando las metodologías directamente sobre cuentas y aplicativos de clientes corporativos activos.
 
-Entornos Híbridos y Multi-Nube
-Un entorno multi-nube implica el uso de múltiples servicios de computación en la nube de diferentes proveedores (como Amazon Web Services, Microsoft Azure y Google Cloud Platform) en una sola arquitectura. La gestión de estos entornos requiere técnicas de monitoreo unificadas y la creación de tableros de control centralizados (Dashboards), utilizando herramientas como Grafana y Prometheus para consolidar métricas dispersas y facilitar la toma de decisiones operativas.
+\textbf{Gestión de Servicios de TI (ITSM) y SLA} \\ 
+La Gestión de Servicios de TI (ITSM) se refiere al enfoque estratégico para diseñar, entregar, gestionar y mejorar la forma en que las empresas utilizan la tecnología de la información. La ejecución eficiente de estas operaciones requiere alinearse a marcos de referencia globales como ITIL v4, el cual proporciona lineamientos estructurados para la gestión del ciclo de vida de los incidentes, la mejora continua y la entrega de valor al negocio \cite{Arias_Pro_2025}. 
 
+Un componente crítico dentro de la arquitectura ITSM es el estricto cumplimiento de los Acuerdos de Nivel de Servicio (SLA), contratos que definen las métricas y tiempos máximos de respuesta esperados por el cliente \cite{Arias_Pro_2025}. En entornos corporativos, la dependencia de procesos de monitoreo manuales y la falta de correlación de eventos generan retrasos inaceptables; esto no solo ocasiona el incumplimiento de los SLA, sino que representa una amenaza directa para la continuidad del negocio y la posición competitiva de la organización \cite{Arias_Pro_2025}.
+
+\textbf{Visualización y Entornos Multi-Nube} \\ 
+La gestión de arquitecturas multi-nube (AWS, Azure, GCP) exige estrategias de observabilidad estrictas para evitar puntos ciegos operativos. En esta línea, estudios recientes demuestran que la implementación de herramientas integrales de observabilidad permite identificar cuellos de botella y prevenir la saturación de recursos mediante alertas centralizadas \cite{saavedra_implementacion_2023}. Mientras que dichas implementaciones suelen limitarse a casos de uso aislados o de un solo sector \cite{saavedra_implementacion_2023}, el \textbf{\NombreProyecto} consolida la telemetría de múltiples inquilinos corporativos simultáneamente mediante paneles dinámicos en Grafana y Prometheus, facilitando la toma de decisiones.
+
+\textbf{Middleware e Integración de Sistemas (TIBCO)} \\ 
+En entornos corporativos donde conviven múltiples aplicaciones heterogéneas, es necesario un software intermediario ("Middleware"). Soluciones como TIBCO Scribe y TIBCO Business Works permiten automatizar la transferencia de datos y ejecutar catálogos nocturnos, por lo que el monitoreo de sus agentes y la lectura de logs son vitales para la integridad de la información institucional.
+
+\subsection{Tabla comparativa}
+\label{sec:tabla_comparativa}
+
+Para sintetizar el análisis del estado del arte, en la Tabla \ref{tab:comparativa_trabajos} se presenta una matriz comparativa que contrasta las características técnicas y operativas del \textbf{\NombreProyecto} frente a los trabajos relacionados descritos anteriormente (Arias, 2025; Saavedra, 2023). Este análisis permite evidenciar cómo la presente propuesta supera las limitantes teóricas e integraciones aisladas al unificar el monitoreo multi-nube, la validación de middleware y la gestión estricta de SLA en un entorno de producción corporativo real.
+
+\begin{table}[H]
+\centering
+\caption{Comparativa técnica del estado del arte frente a la propuesta}
+\label{tab:comparativa_trabajos}
+\begin{tabular}{|p{3.2cm}|p{3.6cm}|p{3.6cm}|p{4.2cm}|}
+\hline
+\textbf{Criterio Evaluado} & \textbf{Proyecto SIMAI (Arias, 2025)} & \textbf{Observabilidad Cloud (Saavedra, 2023)} & \textbf{\NombreProyecto (Propuesta)} \\
+\hline
+Entorno de Despliegue & Diseño conceptual; simulación de arquitectura en laboratorio. & Entorno de producción real para una sola aplicación financiera. & Entorno de producción multi-inquilino para clientes corporativos. \\
+\hline
+Alcance de Infraestructura & Homogéneo, limitado nativamente a Microsoft Azure. & Infraestructura Cloud genérica centralizada. & Ecosistema Híbrido y Multi-Nube (AWS, Azure, GCP y On-Premise). \\
+\hline
+Integración de Ciclo ITSM & Fundamento teórico estructurado bajo ITIL v4. & Fuera del alcance del documento técnico. & Gestión del ciclo de vida y control estricto de SLA (ServiceNow, ZenDesk). \\
+\hline
+Validación de Middleware (EAI) & No contemplado en la propuesta. & No contemplado en la propuesta. & Supervisión activa de nodos y catálogos en TIBCO Scribe y Business Works. \\
+\hline
+Observabilidad y Telemetría & Dependencia de Azure Monitor (sin implementación). & Uso de APM comercial dedicado (New Relic). & Consolidación unificada de métricas y depuración (Grafana, Prometheus, DataDog). \\
+\hline
+\end{tabular}
+\end{table}
 
 \subsection{Definición del Problema}
 \label{sec:problema}
@@ -70,34 +100,6 @@ Asegurar la alta disponibilidad y el rendimiento óptimo de la infraestructura t
     \item \textbf{Optimización de Plataformas de Visualización:} Estructurar y depurar paneles de control centralizados en Grafana y Prometheus mediante el uso de transformaciones y extensiones de tablas dinámicas, consolidando el historial y estado de las alarmas activas con sus respectivas marcas de tiempo para agilizar la toma de decisiones.
 \end{itemize}
 
-%XD por poner una tabla 
-\subsection{Tabla comparativa}
-\label{sec:tabla_comparativa}
-
-Con el fin de evidenciar las mejoras operativas que introduce el presente proyecto, en la Tabla \ref{tab:comparativa} se contrastan los procesos de soporte realizados de manera tradicional (modelo reactivo) frente a la operación del sistema propuesto (monitoreo proactivo), abarcando aspectos como la gestión de incidentes, validación de integraciones, manejo de falsos positivos y visualización de métricas.
-
-\begin{table}[H]
-\centering
-\caption{Comparativa entre el soporte tradicional y la optimización de monitoreo}
-\label{tab:comparativa}
-\begin{tabular}{|p{3.5cm}|p{5cm}|p{5cm}|}
-\hline
-\textbf{Aspecto} & \textbf{Antes (Modelo Reactivo)} & \textbf{Después (Modelo Proactivo)} \\
-\hline
-Enfoque de soporte & Reactivo (Mesa de ayuda tradicional); se atiende la falla tras el reporte del usuario final. & Proactivo (NOC/SOC); detección temprana de anomalías antes de afectar la continuidad del servicio. \\
-\hline
-Gestión de incidentes y SLA & Seguimiento disperso, alto riesgo de vencimiento (quemar) los Acuerdos de Nivel de Servicio (SLA). & Ciclo de vida controlado en ITSM (ServiceNow/ZenDesk) con asignación ágil y documentación cruzada. \\
-\hline
-Supervisión de integraciones & Intervención manual solo cuando fallan las transferencias de datos o catálogos nocturnos. & Validación estructurada de MOPs para TIBCO Scribe y Business Works, supervisando agentes y logs. \\
-\hline
-Manejo de alertas & Saturación de herramientas con alertas redundantes y alto volumen de falsos positivos. & Filtrado efectivo descartando falsos positivos mediante validaciones (ej. ventanas de 15 minutos o 5 polls). \\
-\hline
-Visualización de métricas & Datos dispersos navegando manualmente por múltiples consolas nativas (AWS, Azure, GCP). & Métricas consolidadas en paneles centralizados de Grafana/Prometheus con \textit{Business Tables}. \\
-\hline
-Disponibilidad de información & Historial de fallas difícil de rastrear y sin marcas de tiempo claras para el análisis. & Alarmas activas consolidadas con su respectivo \textit{timestamp} para agilizar la toma de decisiones. \\
-\hline
-\end{tabular}
-\end{table}
 
 \subsection{Justificación}
 \label{sec:justificacion}
