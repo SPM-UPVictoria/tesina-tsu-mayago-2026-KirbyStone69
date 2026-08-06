@@ -81,9 +81,9 @@
 \newcommand{\NombreAlumno}{Eder Omar Zúñiga Zavala}
 \soulregister{\NombreAlumno}{1}
 % NUNCA PONGAN EL TITULO EN MAYUSCULAS!!
-\newcommand{\NombreProyecto}{HONNE INTELLIGENCE HUB} 
+\newcommand{\NombreProyecto}{Honne S.A. de C.V.}
 % Noten los \\ para insertar un ENTER del texto en el encabezado. NUNCA PONGAN EL TITULO EN MAYUSCULAS!!
-\newcommand{\NombreProyectoheader}{HONNE INTELLIGENCE HUB}
+\newcommand{\NombreProyectoheader}{Honne S.A. de C.V.}
 \newcommand{\NombreTSU}{Desarrollo de Software Multiplataforma}
 \newcommand{\UnidadEconomica}{Honne S.A. de C.V.}
 \newcommand{\nasesorempresaria}   {Oscar David Galindo Olvera}
@@ -170,9 +170,9 @@
 
 {\Large \textbf{UNIVERSIDAD POLITÉCNICA DE VICTORIA}}\\[1.0cm]
 
-{\Large \textbf{REPORTE DE ACTIVIDADES DEL PROYECTO}}\\[0.75cm]
+{\Large \textbf{REPORTE TÉCNICO DE ACTIVIDADES DE ESTADÍA UNIVERSITARIA}}\\[0.75cm]
 
-{\Large \MakeUppercase{\NombreProyecto}}\\[1.0cm]
+{\Large EN \MakeUppercase{\NombreProyecto}}\\[1.0cm]
 
 QUE PRESENTA
 
@@ -221,7 +221,7 @@ Matrícula: \textbf{\Matricula}  \\[0.125cm]
 Programa Académico: \textbf{\ncarrera}  \\[0.25cm]
 
 \noindent
-Por medio del presente, se le informa que tras realizar su Estadía en la empresa \textbf{\UnidadEconomica} llevando a cabo el proyecto: \textbf{\NombreProyecto}, durante el periodo comprendido \textbf{\ncuatrimestre} logrando una ponderación de \_\_\_\_  (60\% posibles) para el criterio de reporte; por lo tanto, se otorga la oportunidad de exponer el trabajo realizado por medio de un informe ejecutivo programado para el día \textbf{\DiaEvaluacionPesentacion} del mes de \textbf{\MesEvaluacionPesentacion} del año en curso en un horario de \textbf{\HoraEvaluacionPesentacion} en modalidad \textbf{\modalidadEvaluacionPesentacion} en \textbf{\tipoAulaOficinaEnlacePesentacion} \textbf{\AulaEvaluacionOEnlaceMeetPesentacion}.
+Por medio del presente, se le informa que tras realizar su Estadía en la empresa \textbf{\UnidadEconomica}, desarrollando el \textbf{Reporte Técnico de Actividades de Estadía Universitaria}, durante el periodo comprendido \textbf{\ncuatrimestre} logrando una ponderación de \_\_\_\_  (60\% posibles) para el criterio de reporte; por lo tanto, se otorga la oportunidad de exponer el trabajo realizado por medio de un informe ejecutivo programado para el día \textbf{\DiaEvaluacionPesentacion} del mes de \textbf{\MesEvaluacionPesentacion} del año en curso en un horario de \textbf{\HoraEvaluacionPesentacion} en modalidad \textbf{\modalidadEvaluacionPesentacion} en \textbf{\tipoAulaOficinaEnlacePesentacion} \textbf{\AulaEvaluacionOEnlaceMeetPesentacion}.
 
 \vspace{0.25cm}
 
@@ -303,20 +303,15 @@ Calificación final & \multicolumn{2}{c|}{ } \\ \hline
 \clearpage
 \ClearWallPaper
 \thispagestyle{fancy}
+\addcontentsline{toc}{section}{Agradecimientos}
+\section*{Agradecimientos}
+\textit{Espacio breve (media cuartilla) para agradecer a las personas e instituciones que apoyaron durante la Estadía.}
+
+\clearpage
+\thispagestyle{fancy}
 \addcontentsline{toc}{section}{Resumen}
-%\vspace*{1cm}
 \section*{Resumen}
-
-El resumen es una representación condensada del contenido del documento. Su propósito es dar al lector un relato de las características principales del reporte. Su redacción es en tercera persona, en tiempo pasado, con escritura continua y sin tablas o imágenes. La extensión sugerida es no mayor a media página. Debe cumplir con las siguientes características:
-
-\begin{itemize}
-\item Se hace mención del nombre del proyecto como parte de la Estadía, el nombre de la unidad económica y su dirección completa.
-\item Se menciona el objetivo, meta, actividad o responsabilidad principal que se abordó.
-\item Se describe detalladamente la metodología desarrollada; tales como herramientas, materiales, equipos, cursos, softwares y conocimientos adquiridos en la universidad utilizados para alcanzar los objetivos empleados.
-\item Se describen detalladamente los resultados más importantes obtenidos.
-\item Se termina presentando conclusiones del trabajo.
-\end{itemize}
-
+\textit{Máximo una página: menciona la empresa, el problema detectado en el área de trabajo, qué actividades se realizaron para atenderlo y qué resultado se obtuvo. Redacción en tercera persona y tiempo pasado, sin tablas ni imágenes.}
 
 \clearpage
 \thispagestyle{fancy}
@@ -340,7 +335,13 @@ Add your abstract here...
 \setcounter{page}{1}
 \pagestyle{fancy}
 
-\input{introduccion}
+\input{capitulo1_generalidades}
+
+\clearpage
+\input{capitulo2_planteamiento}
+
+\clearpage
+\input{capitulo3_marcoteorico}
 
 %\chapter{Metodología}
 \clearpage
@@ -363,15 +364,15 @@ Add your abstract here...
 \printbibliography
  
 \clearpage
-\addcontentsline{toc}{section}{Anexos} 
+\addcontentsline{toc}{section}{Anexos}
+\section*{Anexos}
+\textit{Planos, manuales elaborados, formatos, códigos, hojas de datos, cronograma completo y cartas de evaluación (si aplica).}
 
-
+\clearpage
 \thispagestyle{fancy}
-%\pagenumbering{roman}
-%\setcounter{page}{1}
 \includepdf[pages={1}]{documentosDigitalizados/SeguroFacultativo.pdf}
 
-% En las siguientes 3 paginas, debe incluir una digitalización de calidad de sus respectivas cartaas, no una fotografia toda cucha tomada con su celular de Coppel
+% En las siguientes 2 paginas, debe incluir una digitalización de calidad de sus respectivas cartas, no una fotografia toda cucha tomada con su celular de Coppel
 % Pagina 1: Digitalización de la carta de presentación (sustituir por una original en el empastado)
 \clearpage
 \thispagestyle{fancy}
@@ -383,11 +384,6 @@ Add your abstract here...
 \clearpage
 \thispagestyle{fancy}
 \includepdf[pages={1}]{documentosDigitalizados/CartaAceptacion.pdf}
-
-% Pagina 3: Digitalización de la carta de liberación (sustituir por una original en el empastado)
-\clearpage
-\thispagestyle{fancy}
-\includepdf[pages={1}]{documentosDigitalizados/CartaLiberacion.pdf}
 
 %\chapter*{Rúbrica para la Evaluación del Reporte de Estadía}
 \clearpage
@@ -459,123 +455,5 @@ Criterio &  Bueno ( 10\% ) & Regular (7\% ) & Menor a lo esperado (5\%) \\ \hlin
 
 
 \end{longtable}
-
-\end{document}
-
-
-
-
-
-
-
-
-\end{document}
-%\section*{Rúbrica para Exposición}
-%Completa aquí los criterios de dominio del tema, material visual, comunicación y respuestas.
-
-%\usepackage{longtable}
-%\usepackage{array}
-
-\begin{center}
-\textbf{RÚBRICA PARA LA EVALUACIÓN DEL REPORTE DE ESTADÍA}
-\end{center}
-
-\vspace{0.5cm}
-
-\noindent
-\textbf{NOMBRE DEL ESTUDIANTE:} NOMBRES Y APELLIDOS
-
-\noindent
-\textbf{PERIODO:} MAYO AGOSTO 2026
-
-\noindent
-\textbf{NOMBRE DEL EVALUADOR:} NOMBRES Y APELLIDOS
-
-\noindent
-\textbf{FIRMA DEL EVALUADOR:}
-
-\noindent
-\textbf{CALIFICACIÓN FINAL:} 60/100
-
-\vspace{0.5cm}
-
-\begin{longtable}{|c|C{7cm}|c|C{4cm}|}
-\hline
-\textbf{Valor} & \textbf{Características a cumplir} & \textbf{Puntos obtenidos} & \textbf{Observaciones} \\
-\hline
-6 & Resumen ejecutivo y abstract: Indica qué se realizó, cómo se realizó y qué se obtuvo. (una cuartilla en español e inglés) & & \\
-\hline
-6 & Contenido temático: Describe correctamente el contenido del documento & & \\
-\hline
-6 & Introducción: El informe cumple con introducir al lector de una manera atractiva el panorama general del trabajo realizado en la unidad económica. & & \\
-\hline
-6 & Descripción de la unidad económica: Se redactan los detalles de los antecedentes del departamento, la empresa, giro, misión, visión, infraestructura, ubicación. & & \\
-\hline
-6 & Objetivos operativos: Describen las acciones a cumplir mediante actividades establecidas por el asesor empresarial & & \\
-\hline
-24 & Metodología: Descripción a detalle de las etapas y procedimientos utilizados en el proyecto & & \\
-\hline
-18 & Resultados: Interpreta y analiza los resultados obtenidos durante su estadía. & & \\
-\hline
-12 & Conclusiones: Las conclusiones son claras y acordes con el objetivo esperado & & \\
-\hline
-6 & Bibliografía y anexos: Cita correctamente las fuentes de información utilizando un estilo de referencia; anexa cartas correspondientes & & \\
-\hline
-10 & Responsabilidad: Entregó el reporte en la fecha y hora señalada. Asistió al menos al 80\% de sus días de Estadía & & \\
-\hline
-\end{longtable}
-
-%\vspace{1cm}
-
-\clearpage
-\begin{center}
-\textbf{RÚBRICA PARA EXPOSICIÓN DEL REPORTE DE ESTADÍAS}
-\end{center}
-
-\begin{center}
-\textbf{Técnico Superior Universitario}
-\end{center}
-
-\vspace{0.5cm}
-\newcommand{\SizeFont}{\small}
-\begin{longtable}{|p{3cm}|p{4cm}|p{4cm}|p{4cm}|}
-\hline
-\textbf{Criterio} & \textbf{Bueno (10\%)} & \textbf{Regular (7\%)} & \textbf{Menor a lo esperado (5\%)} \\
-\hline
-Dominio del tema & Utiliza todos los términos y conceptos de manera correcta. & Utiliza la mayoría de los términos y conceptos de manera correcta. & Confunde los términos y conceptos. \\
-\hline
-Presentación de material visual & Las diapositivas tienen fondo claro, con elementos visibles y contienen aspectos relevantes. & Presentan dificultad visual pero incluyen aspectos relevantes. & Presentan dificultad visual y carecen de aspectos relevantes. \\
-\hline
-Comunicación y expresión & Voz comprensible, seguridad corporal, atuendo formal o semiformal y respeto. & Voz poco comprensible, inseguridad, pero mantiene formalidad. & Voz no comprensible, inseguridad, atuendo inadecuado o falta de respeto. \\
-\hline
-Respuestas & Respuestas consistentes con lógica operativa. & Respuestas poco consistentes pero con lógica. & Respuestas difusas e incoherentes. \\
-\hline
-\end{longtable}
-
-\vspace{0.5cm}
-
-\noindent
-\textbf{Ponderación final de su exposición:} 40/100
-
-\vspace{0.5cm}
-
-\noindent
-\textbf{Datos de la exposición y evaluación}
-
-\noindent
-Día / Mes / Año
-
-\noindent
-Comentario adicional
-
-\vspace{1cm}
-
-\noindent
-Firma \hspace{3cm} Nombre \hspace{3cm} Correo electrónico
-
-\vspace{0.5cm}
-
-\noindent
-Profesor asesor institucional
 
 \end{document}
