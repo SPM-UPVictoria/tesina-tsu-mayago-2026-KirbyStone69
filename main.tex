@@ -317,20 +317,31 @@ Calificación final & \multicolumn{2}{c|}{ } \\ \hline
 \thispagestyle{fancy}
 \addcontentsline{toc}{section}{Agradecimientos}
 \section*{Agradecimientos}
-\textit{Espacio breve (media cuartilla) para agradecer a las personas e instituciones que apoyaron durante la Estadía.}
+
+Se agradece a \UnidadEconomica\ por la oportunidad de realizar esta Estadía y por el apoyo brindado durante su desarrollo. De manera particular, se agradece al asesor de la unidad económica, \nasesorempresaria, por su guía y disposición a lo largo de las actividades realizadas, así como al asesor institucional, \nasesorinstitucional, por su acompañamiento y retroalimentación en la elaboración de este reporte.
 
 \clearpage
 \thispagestyle{fancy}
 \addcontentsline{toc}{section}{Resumen}
 \section*{Resumen}
-\textit{Máximo una página: menciona la empresa, el problema detectado en el área de trabajo, qué actividades se realizaron para atenderlo y qué resultado se obtuvo. Redacción en tercera persona y tiempo pasado, sin tablas ni imágenes.}
+
+El presente reporte documenta las actividades realizadas durante la Estadía Universitaria en \UnidadEconomica, empresa de transformación tecnológica y consultoría cloud, en su Centro de Operación y Excelencia Multicloud (CCoE) ubicado en calle 533 Maratines, Ciudad Victoria, Tamaulipas. La Estadía se desarrolló en el área de Mesa de Servicio del CCoE, cuyo objetivo principal fue apoyar en el uso de las distintas herramientas de monitoreo del área y en el desarrollo de sus actividades diarias, contribuyendo a distribuir la carga de trabajo del equipo.
+
+Para ello, se verificaron alertas activas de AWS mediante Amazon CloudWatch, aplicando un umbral de persistencia para distinguir falsos positivos de incidentes reales; se revisaron logs de instancias en Google Cloud Platform bajo criterios de errores y latencia; se dio seguimiento a las soluciones de TIBCO Scribe, inicialmente de forma manual y posteriormente mediante un script en Python desarrollado por iniciativa propia, que automatizó la detección de fallas y su notificación a través de un bot de Telegram; y se dio seguimiento constante a las alertas de ServiceNow. Para el desarrollo del script fue necesario aplicar conocimientos de la materia de Redes, además de técnicas de ingeniería inversa de APIs, dado que la plataforma utilizada no contaba con documentación pública para dicho fin.
+
+Como resultado, las alertas de AWS acumuladas se clasificaron por completo, y el script de monitoreo de TIBCO Scribe logró automatizar una revisión que antes tomaba minutos de trabajo manual varias veces al día, liberando aproximadamente 19 horas mensuales de trabajo del equipo. Se concluye que los objetivos planteados se cumplieron, destacando el desarrollo del script como la aportación más significativa de la Estadía, mientras que la automatización de las demás herramientas de monitoreo queda como una oportunidad de mejora a futuro.
 
 \clearpage
 \thispagestyle{fancy}
 \addcontentsline{toc}{section}{Abstract}
 %\vspace*{1cm}
 \section*{Abstract}
-Add your abstract here...
+
+This report documents the activities carried out during the University Internship (Estadía) at \UnidadEconomica, a technology transformation and cloud consulting firm, at its Cloud Operations and Multicloud Excellence Center (CCoE) located at calle 533 Maratines, Ciudad Victoria, Tamaulipas. The internship took place in the CCoE's Service Desk area, whose main objective was to support the use of the area's various monitoring tools and its daily activities, helping to distribute the team's workload.
+
+To this end, active AWS alerts were verified using Amazon CloudWatch, applying a persistence threshold to distinguish false positives from real incidents; logs of instances in Google Cloud Platform were reviewed under error and latency criteria; TIBCO Scribe solutions were monitored, initially by hand and later through a Python script developed on personal initiative, which automated failure detection and notification through a Telegram bot; and ServiceNow alerts were monitored continuously. Developing the script required applying knowledge from the Networking course, as well as API reverse-engineering techniques, since the platform used did not have public documentation for that purpose.
+
+As a result, the accumulated AWS alerts were fully classified, and the TIBCO Scribe monitoring script automated a review that previously took minutes of manual work several times a day, freeing up approximately 19 hours of team work per month. It is concluded that the proposed objectives were met, with the development of the script standing out as the most significant contribution of the internship, while automating the remaining monitoring tools remains an opportunity for future improvement.
 
 \clearpage
 %\renewcommand{\indexname}{Contenido temático}
@@ -379,7 +390,21 @@ Add your abstract here...
 \clearpage
 \addcontentsline{toc}{section}{Anexos}
 \section*{Anexos}
-\textit{Planos, manuales elaborados, formatos, códigos, hojas de datos, cronograma completo y cartas de evaluación (si aplica).}
+
+\subsection*{Cronograma de actividades}
+
+\begin{itemize}
+    \item \textbf{Primer mes (mediados de mayo -- mediados de junio):} verificación de alertas activas de AWS.
+    \item \textbf{Segundo mes (mediados de junio -- mediados de julio):} revisión de logs de instancias en Google Cloud Platform.
+    \item \textbf{Tercer mes en adelante (mediados de julio -- cierre de la Estadía):} monitoreo de TIBCO Scribe y desarrollo del script de automatización.
+    \item \textbf{Constante durante toda la Estadía:} seguimiento a las alertas de ServiceNow.
+\end{itemize}
+
+\subsection*{Código fuente del script de monitoreo}
+
+A continuación se incluye el código completo del script de monitoreo de TIBCO Scribe desarrollado durante la Estadía, descrito en el Capítulo 4.
+
+\lstinputlisting[caption={Script completo de monitoreo de TIBCO Scribe.}, label={lst:monitoreo_completo}]{monitoreo.py}
 
 \clearpage
 \thispagestyle{fancy}
