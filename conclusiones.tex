@@ -3,15 +3,33 @@
 
 \subsection{Cierre por objetivo específico}
 \label{sec:cierre_objetivos}
-\textit{Retoma cada objetivo específico planteado en el Capítulo 2 y explica cómo se cumplió.}
+
+\begin{itemize}
+    \item \textbf{Verificar las alertas activas de AWS.} Se cumplió: las 129 alertas registradas en el diagnóstico inicial se clasificaron por completo entre patrones programados y fallas reales.
+    \item \textbf{Revisar los logs de instancias en Google Cloud Platform.} Se cumplió, aplicando los criterios de más de 20 registros de error y el umbral de persistencia de latencia descritos en el Capítulo 4, de forma manual durante toda la Estadía.
+    \item \textbf{Monitorear el estado de las soluciones y Agents de TIBCO Scribe.} Se cumplió, inicialmente de forma manual y después apoyado por el script de automatización.
+    \item \textbf{Desarrollar un script de monitoreo automatizado para TIBCO Scribe.} Se cumplió y se superó lo planteado: la versión final del script automatizó incluso la regla del estado de error fatal, que en un inicio se pensaba mantener manual, y se agregó la posibilidad de silenciar alertas conocidas.
+    \item \textbf{Dar seguimiento a las alertas de ServiceNow.} Se cumplió de forma manual y constante a lo largo de toda la Estadía, ya que esta herramienta no generaba notificaciones automáticas.
+\end{itemize}
 
 \subsection{Aprendizaje profesional y personal}
 \label{sec:aprendizaje}
-\textit{Qué se aprendió durante la Estadía, tanto a nivel profesional como personal.}
+
+A nivel profesional, la Estadía permitió profundizar en el funcionamiento de distintos servicios en la nube (Software as a Service) y en cómo se procesan las peticiones entre un cliente y estos servicios, así como comprender de forma práctica la importancia de automatizar procesos de monitoreo repetitivos, no solo para ahorrar tiempo sino para reducir el margen de error humano al revisar la misma información una y otra vez. También se reforzó la capacidad de distinguir una falla real de un falso positivo, un criterio que se desarrolla más con la práctica que con la teoría.
+
+A nivel personal, trabajar dentro de un equipo con actividades rotativas y clientes de alta importancia exigió organización y atención constante, además de la disposición para identificar oportunidades de mejora por cuenta propia, como ocurrió con el desarrollo del script de monitoreo.
 
 \subsection{Recomendaciones a la empresa}
 \label{sec:recomendaciones}
-\textit{Sugerencias para sostener o extender la mejora implementada.}
+
+La principal recomendación es extender la automatización de monitoreo a las demás herramientas del área. El caso de TIBCO Scribe mostró que automatizar una revisión repetitiva libera tiempo del equipo para atender incidentes reales; aplicar un enfoque similar a la verificación de alertas de AWS, los logs de Google Cloud Platform y, sobre todo, a ServiceNow —donde actualmente no existe ningún tipo de notificación automática y se depende de la vigilancia constante del equipo— podría traer el mismo beneficio.
+
+\subsection{Recomendaciones al programa académico}
+\label{sec:recomendaciones_programa}
+
+Se recomienda al programa académico reforzar contenidos prácticos relacionados con plataformas de nube pública (AWS, Google Cloud Platform) y conceptos de monitoreo de infraestructura, ya que durante la Estadía este conocimiento tuvo que adquirirse directamente en campo, sin una base previa específica en la formación académica más allá de la materia de Redes.
 
 \subsection{Trabajo pendiente o siguiente fase}
 \label{sec:trabajo_pendiente}
+
+Como trabajo pendiente para una siguiente fase, se identifican dos líneas principales: extender la automatización desarrollada para TIBCO Scribe a las demás herramientas de monitoreo (AWS, Google Cloud Platform y ServiceNow), y migrar el script de monitoreo de TIBCO Scribe desde mi equipo de cómputo personal hacia un servidor o equipo de la empresa, para que continúe funcionando de forma permanente una vez concluida la Estadía.

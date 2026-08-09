@@ -3,20 +3,36 @@
 
 \subsection{Estado final}
 \label{sec:estado_final}
-\textit{Medido con los mismos indicadores utilizados en el diagnóstico inicial.}
+
+Al cierre de la Estadía, las 129 alertas de AWS registradas en el diagnóstico inicial se clasificaron por completo entre patrones programados y fallas reales; ese trabajo tomó varios días de revisión continua.
+
+El script de monitoreo de TIBCO Scribe también evolucionó respecto a la primera versión descrita en el Capítulo 4. En la versión final, la regla del estado de error fatal —que en un inicio se seguía revisando de forma manual— quedó automatizada: el script revisa el historial completo de cada solución, reporta cada ejecución en error fatal de forma individual sin repetir el mismo evento dos veces, y evita alertar sobre caídas que ya existían antes de que el script arrancara, para no saturar de avisos viejos. También se agregó la posibilidad de silenciar temporalmente, mediante un comando enviado al bot de Telegram, las alertas de una solución específica cuando el equipo ya tenía conocimiento de una falla en curso.
 
 \subsection{Comparativo antes/después}
 \label{sec:comparativo}
-\textit{Presentar en tabla y gráfica.}
+
+Antes de contar con el script, revisar manualmente el estado de las soluciones de TIBCO Scribe tomaba entre 3 y 4 minutos por cada verificación, ya que era necesario abrir cada pestaña de forma individual, aplicar el filtro y esperar el resultado de la consulta. Esta revisión se repetía cada 30 minutos a lo largo de la jornada laboral. Con el script en funcionamiento, esa verificación se realiza de forma automática cada pocos minutos, sin requerir tiempo de ninguna persona del equipo; el trabajo humano se limita a atender las notificaciones que el bot envía cuando detecta una falla real.
 
 \subsection{Evidencia fotográfica}
 \label{sec:evidencia_fotografica}
-\textit{Fotografías con pie descriptivo.}
 
-\subsection{Beneficio económico}
-\label{sec:beneficio_economico}
-\textit{Ahorro anual, ROI, tiempo de recuperación de la inversión.}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/figura_bot_estados.png}
+    \caption{Los cuatro estados detectados por el bot de monitoreo de TIBCO Scribe.}
+    \label{fig:bot_estados}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/figura_telegram_aviso.png}
+    \caption{Aviso real enviado por el bot al grupo de Telegram del equipo.}
+    \label{fig:telegram_aviso}
+\end{figure}
 
 \subsection{Análisis de los resultados}
 \label{sec:analisis_resultados}
-\textit{Explica por qué se logró el resultado esperado o por qué se quedó corto.}
+
+El objetivo de automatizar el monitoreo de TIBCO Scribe se cumplió por completo: la versión final del script cubre incluso la regla del estado de error fatal, que en un inicio se seguía revisando de forma manual. Suponiendo una jornada laboral de 8 horas y una revisión manual cada 30 minutos (16 revisiones al día, de 3 a 4 minutos cada una), esta automatización libera aproximadamente 56 minutos de trabajo manual por día, cerca de 19 horas al mes que el equipo puede destinar a la atención de incidentes reales en lugar de revisiones repetitivas.
+
+En el caso de AWS, Google Cloud Platform y ServiceNow, el objetivo de verificar y reportar alertas también se cumplió, pero de forma manual en los tres casos; a diferencia de TIBCO Scribe, no se llegó a desarrollar una automatización similar para ellas, principalmente porque el tiempo de la Estadía se concentró en la herramienta que representaba la carga de trabajo más repetitiva. Esa automatización pendiente para AWS, GCP y ServiceNow queda como una oportunidad de mejora a futuro.

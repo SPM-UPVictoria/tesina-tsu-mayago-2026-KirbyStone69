@@ -1,19 +1,86 @@
 \section{Capítulo 4 --- Metodología / desarrollo}
 \label{ch:metodologia}
-\textit{Capítulo de mayor peso del reporte.}
 
 \subsection{Diagnóstico inicial}
 \label{sec:diagnostico_inicial}
-\textit{Medición del estado actual: diagramas de flujo, Pareto, Ishikawa, layout original, entre otros.}
+
+El estado inicial de la verificación de alertas de AWS ya se describió en el Capítulo 2: existía un número considerable de alertas activas sin verificar, sin que esa tarea estuviera asignada a una persona en específico.
+
+Para TIBCO Scribe no existía un número exacto de fallas acumuladas, pero sí una carga considerable de trabajo: el monitoreo cubría a dos instituciones educativas clientes de Honne, cada una con alrededor de 16 pestañas de registros (cerca de 32 en total) donde se reportaba si las soluciones, instancias y Agents del cliente estaban funcionando correctamente. Revisar todo esto de forma manual, una por una, era la única forma de detectar fallas.
 
 \subsection{Plan de trabajo}
 \label{sec:plan_trabajo}
-\textit{Cronograma (diagrama de Gantt) con las actividades por semana o meses completos.}
+
+La Estadía comenzó a mediados de mayo de 2026. Durante las primeras semanas, el trabajo se realizó completamente en modalidad remota, ya que las oficinas de Honne se encontraban en remodelación. A partir de julio, una vez trasladados a las oficinas físicas, se adoptó una modalidad híbrida: home office los lunes y viernes, y trabajo presencial de martes a jueves. Dentro del equipo existía además una rotación de actividades: a cada integrante le correspondían una o dos actividades principales en un momento dado, además de subtareas de apoyo.
+
+En términos generales, las actividades se distribuyeron de la siguiente manera:
+\begin{itemize}
+    \item Primer mes: verificación de alertas activas de AWS.
+    \item Segundo mes: revisión de logs de instancias en Google Cloud Platform.
+    \item Tercer mes en adelante: monitoreo de TIBCO Scribe y desarrollo del script de automatización.
+\end{itemize}
+
+El seguimiento a las alertas de ServiceNow se mantuvo como una tarea constante a lo largo de toda la Estadía, sin estar limitado a una etapa específica.
 
 \subsection{Desarrollo por etapas}
 \label{sec:desarrollo_etapas}
-\textit{Describe cada actividad realizada, las decisiones tomadas y por qué, cálculos, diseños, programación y capacitaciones impartidas.}
+
+\textbf{Verificación de alertas de AWS.} Esta etapa ya se describió a detalle en el Capítulo 2: se monitoreaban las alertas activas en la consola de AWS, apoyándose en las métricas de Amazon CloudWatch para distinguir un falso positivo de una falla real, aplicando el umbral de persistencia de 15 minutos descrito en el Marco teórico.
+
+\textbf{Revisión de logs en Google Cloud Platform.} Se revisaban los registros de las instancias del cliente en la consola de Google Cloud Platform, aplicando dos criterios: si se acumulaban más de 20 registros de error, se consideraba una posible caída del sistema; y si el nivel de latencia de los logs superaba el valor 20 y se mantenía así de forma persistente, también se reportaba como incidente. Este segundo criterio es, de nuevo, un umbral de persistencia: no bastaba con un registro elevado aislado, la condición debía sostenerse en el tiempo (ver Figura \ref{fig:gcp_logs}). El uso de los recursos primarios de la instancia también se supervisaba de forma gráfica (ver Figura \ref{fig:gcp_recursos}).
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/figura_gcp_logs.png}
+    \caption{Registros de error en la consola de Google Cloud Platform.}
+    \label{fig:gcp_logs}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/figura_gcp_latencia.png}
+    \caption{Gráfica de uso de recursos primarios de la instancia en Google Cloud Platform.}
+    \label{fig:gcp_recursos}
+\end{figure}
+
+\textbf{Monitoreo de TIBCO Scribe (Scribesoft).} Antes de automatizarlo, esta revisión se hacía completamente a mano: en una pestaña con el listado de Agents/instancias de cada cliente, había que seleccionar cada uno, aplicar el filtro y esperar el resultado de la consulta, repitiendo el proceso más de 30 veces por revisión. Cada solución podía mostrar cuatro estados: completado exitosamente (verde), completado con errores (amarillo), en proceso (gris) o error fatal (rojo). Las reglas para considerar una falla real no las definí yo: las obtuve consultando con el personal del área, que ya las aplicaba de forma empírica en su trabajo diario. Quedaron así: más de 10 lecturas consecutivas en gris y más de 10 minutos transcurridos; más de 10 lecturas consecutivas en amarillo, sin importar el tiempo; o una sola lectura en rojo, que se reportaba de inmediato.
+
+\textbf{Desarrollo del script de monitoreo automatizado.} Ante lo repetitivo del proceso anterior, identifiqué la oportunidad y desarrollé, por iniciativa propia, un script en Python que automatiza esta revisión, aplicando las mismas reglas de conteo y tiempo obtenidas del equipo, y notificando al equipo mediante un bot de Telegram solo cuando una racha cumple la regla, sin repetir el aviso si ya había sido reportada.
+
+El acceso a la plataforma ya existía previamente: Honne cuenta con cuenta activa en Scribesoft como parte de sus herramientas de integración, y usé mi acceso ya autorizado, sin gestionar credenciales nuevas. Sin embargo, Scribesoft no ofrece una API pública documentada para consultar el historial de ejecuciones de forma automatizada. Para resolverlo, inspeccioné el tráfico de red del panel web de Scribesoft con las herramientas de desarrollador del navegador, identifiqué las llamadas que la página hace a su servidor para obtener el historial de cada solución, y repliqué esas mismas llamadas desde el script en Python, autenticándome con las mismas credenciales que ya usaba para entrar por la interfaz. El script consulta esta información cada 2 minutos para todas las soluciones de ambos clientes. En esta primera versión, la regla del estado rojo (error fatal) todavía no quedaba automatizada y se seguía revisando de forma manual.
+
+El siguiente fragmento, tomado de la versión final del script, muestra la función que decide si una racha de estados debe reportarse, aplicando las reglas de conteo y tiempo descritas arriba:
+
+\begin{lstlisting}[caption={Función que decide si reportar una alerta, según la regla configurada para cada estado.}, label={lst:debe_reportar}]
+def debe_reportar(estado, inicio, cantidad_en_racha):
+    regla = REGLAS.get(estado)
+
+    if regla is None:
+        return False
+
+    if regla["tipo"] == "conteo":
+        return cantidad_en_racha >= regla["limite"]
+
+    if regla["tipo"] == "tiempo":
+        ahora = datetime.now(timezone.utc)
+        minutos_transcurridos = (ahora - inicio).total_seconds() / 60
+        return minutos_transcurridos >= regla["limite_min"]
+
+    if regla["tipo"] == "conteo_y_tiempo":
+        ahora = datetime.now(timezone.utc)
+        minutos_transcurridos = (ahora - inicio).total_seconds() / 60
+        cumple_conteo = cantidad_en_racha >= regla["limite"]
+        cumple_tiempo = minutos_transcurridos >= regla["limite_min"]
+        return cumple_conteo and cumple_tiempo
+
+    return False
+\end{lstlisting}
+
+\textbf{Seguimiento a ServiceNow.} A diferencia de las otras herramientas, ServiceNow no generaba notificaciones automáticas de error, por lo que había que mantenerse atento a la bandeja de forma constante mientras se realizaban otras tareas, dado que correspondía a un cliente importante. La frecuencia de revisión variaba según la herramienta: GCP se revisaba cada hora, TIBCO Scribe cada 30 minutos, y ServiceNow de forma continua. Hacia el final de la Estadía, un compañero del equipo desarrolló un bot independiente que revisaba ServiceNow cada 12 segundos y notificaba automáticamente los errores; este desarrollo no formó parte de mi trabajo.
+
+De la formación académica, la materia de Redes fue la más aplicada en estas actividades, al tener que aprender a utilizar distintos tipos de \textit{Software as a Service} y familiarizarme con el panel de AWS y CloudWatch.
 
 \subsection{Implementación}
 \label{sec:implementacion}
-\textit{Cómo se aplicó la propuesta en piso o en el área de trabajo.}
+
+El script de monitoreo de TIBCO Scribe se implementó y se ejecutó de forma local en mi propio equipo de cómputo, reportando los errores detectados bajo las condiciones descritas en la etapa anterior durante el resto de la Estadía.

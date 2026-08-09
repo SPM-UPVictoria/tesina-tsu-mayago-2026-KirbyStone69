@@ -18,6 +18,18 @@
 \usepackage{xcolor}
 \usepackage{multirow}
 \usepackage{listings}
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    columns=fullflexible,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny,
+    language=Python,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{teal}
+}
 \usepackage{caption}
 \usepackage{subcaption}
 %\usepackage{parskip}
@@ -328,13 +340,14 @@ Add your abstract here...
 \tableofcontents
 
 
-%\chapter{Introducción}
-
 \clearpage
 \pagenumbering{arabic}
 \setcounter{page}{1}
 \pagestyle{fancy}
 
+\input{introduccion}
+
+\clearpage
 \input{capitulo1_generalidades}
 
 \clearpage
@@ -384,6 +397,12 @@ Add your abstract here...
 \clearpage
 \thispagestyle{fancy}
 \includepdf[pages={1}]{documentosDigitalizados/CartaAceptacion.pdf}
+
+% Pagina 3: Digitalización de la carta de liberación (PENDIENTE: aún no existe el documento)
+% Cuando esté disponible, guardarla en documentosDigitalizados/CartaLiberacion.pdf y descomentar:
+% \clearpage
+% \thispagestyle{fancy}
+% \includepdf[pages={1}]{documentosDigitalizados/CartaLiberacion.pdf}
 
 %\chapter*{Rúbrica para la Evaluación del Reporte de Estadía}
 \clearpage
