@@ -1,10 +1,10 @@
-\section{Capítulo 4 --- Metodología / desarrollo}
+\section{Metodología / desarrollo}
 \label{ch:metodologia}
 
 \subsection{Diagnóstico inicial}
 \label{sec:diagnostico_inicial}
 
-El estado inicial de la verificación de alertas de AWS ya se describió en el Capítulo 2: existía un número considerable de alertas activas sin verificar, sin que esa tarea estuviera asignada a una persona en específico.
+El estado inicial de la verificación de alertas de AWS ya se describió en Planteamiento del problema: existía un número considerable de alertas activas sin verificar, sin que esa tarea estuviera asignada a una persona en específico.
 
 Para TIBCO Scribe no existía un número exacto de fallas acumuladas, pero sí una carga considerable de trabajo: el monitoreo cubría a dos instituciones educativas clientes de Honne, cada una con alrededor de 16 pestañas de registros (cerca de 32 en total) donde se reportaba si las soluciones, instancias y Agents del cliente estaban funcionando correctamente. Revisar todo esto de forma manual, una por una, era la única forma de detectar fallas.
 
@@ -25,7 +25,7 @@ El seguimiento a las alertas de ServiceNow se mantuvo como una tarea constante a
 \subsection{Desarrollo por etapas}
 \label{sec:desarrollo_etapas}
 
-\textbf{Verificación de alertas de AWS.} Esta etapa ya se describió a detalle en el Capítulo 2: se monitoreaban las alertas activas en la consola de AWS, apoyándose en las métricas de Amazon CloudWatch para distinguir un falso positivo de una falla real, aplicando el umbral de persistencia de 15 minutos descrito en el Marco teórico. La Figura \ref{fig:aws_cloudwatch} muestra un ejemplo de patrón de estrés identificado en las gráficas de CloudWatch.
+\textbf{Verificación de alertas de AWS.} Esta etapa ya se describió a detalle en Planteamiento del problema: se monitoreaban las alertas activas en la consola de AWS, apoyándose en las métricas de Amazon CloudWatch para distinguir un falso positivo de una falla real, aplicando el umbral de persistencia de 15 minutos descrito en el Marco teórico. La Figura \ref{fig:aws_cloudwatch} muestra un ejemplo de patrón de estrés identificado en las gráficas de CloudWatch.
 
 \begin{figure}[h]
     \centering
@@ -50,20 +50,27 @@ El seguimiento a las alertas de ServiceNow se mantuvo como una tarea constante a
     \label{fig:gcp_recursos}
 \end{figure}
 
-\textbf{Monitoreo de TIBCO Scribe (Scribesoft).} Antes de automatizarlo, esta revisión se hacía completamente a mano: en una pestaña con el listado de Agents/instancias de cada cliente, había que seleccionar cada uno, aplicar el filtro y esperar el resultado de la consulta, repitiendo el proceso más de 30 veces por revisión. Cada solución podía mostrar cuatro estados: completado exitosamente (verde), completado con errores (amarillo), en proceso (gris) o error fatal (rojo). Las reglas para considerar una falla real no las definí yo: las obtuve consultando con el personal del área, que ya las aplicaba de forma empírica en su trabajo diario. Quedaron así: más de 10 lecturas consecutivas en gris y más de 10 minutos transcurridos; más de 10 lecturas consecutivas en amarillo, sin importar el tiempo; o una sola lectura en rojo, que se reportaba de inmediato. La Figura \ref{fig:tibco_manual} muestra la pestaña de Agents/instancias que se revisaba manualmente, antes de automatizar el proceso.
+\textbf{Monitoreo de TIBCO Scribe (Scribesoft).} Antes de automatizarlo, esta revisión se hacía completamente a mano, revisando dos paneles distintos de Scribesoft. El primero era el panel de Agents (ver Figura \ref{fig:tibco_manual}), donde se verificaba que cada agente/instancia estuviera en estado \textit{Running} y no \textit{Heartbeat Failed}. El segundo era el panel de Execution History (ver Figura \ref{fig:tibco_execution_history}), donde el menú desplegable de \textit{Solution} listaba alrededor de 16 soluciones por cada una de las dos instituciones educativas monitoreadas (cerca de 32 en total, como ya se mencionó en el diagnóstico inicial); había que seleccionar cada una, aplicar el filtro y esperar el resultado de la consulta, repitiendo el proceso más de 30 veces por revisión, para identificar en cuál de cuatro estados se encontraba: completado exitosamente (verde), completado con errores (amarillo), en proceso (gris) o error fatal (rojo). Las reglas para considerar una falla real no las definí yo: las obtuve consultando con el personal del área, que ya las aplicaba de forma empírica en su trabajo diario. Quedaron así: más de 10 lecturas consecutivas en gris y más de 10 minutos transcurridos; más de 10 lecturas consecutivas en amarillo, sin importar el tiempo; o una sola lectura en rojo, que se reportaba de inmediato.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{img/figura_tibco_manual.png}
-    \caption{Pestaña de Agents/instancias de TIBCO Scribe revisada manualmente antes de la automatización.}
+    \caption{Panel de Agents de TIBCO Scribe, uno de los dos paneles revisados manualmente antes de la automatización.}
     \label{fig:tibco_manual}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/figura_tibco_execution_history.png}
+    \caption{Panel de Execution History de TIBCO Scribe, donde se revisaban los cuatro estados de cada solución.}
+    \label{fig:tibco_execution_history}
 \end{figure}
 
 \textbf{Desarrollo del script de monitoreo automatizado.} Ante lo repetitivo del proceso anterior, identifiqué la oportunidad y desarrollé, por iniciativa propia, un script en Python que automatiza esta revisión, aplicando las mismas reglas de conteo y tiempo obtenidas del equipo, y notificando al equipo mediante un bot de Telegram solo cuando una racha cumple la regla, sin repetir el aviso si ya había sido reportada.
 
 El acceso a la plataforma ya existía previamente: Honne cuenta con cuenta activa en Scribesoft como parte de sus herramientas de integración, y usé mi acceso ya autorizado, sin gestionar credenciales nuevas. Sin embargo, Scribesoft no ofrece una API pública documentada para consultar el historial de ejecuciones de forma automatizada. Para resolverlo, inspeccioné el tráfico de red del panel web de Scribesoft con las herramientas de desarrollador del navegador, identifiqué las llamadas que la página hace a su servidor para obtener el historial de cada solución, y repliqué esas mismas llamadas desde el script en Python, autenticándome con las mismas credenciales que ya usaba para entrar por la interfaz. El script consulta esta información cada 2 minutos para todas las soluciones de ambos clientes. En esta primera versión, la regla del estado rojo (error fatal) todavía no quedaba automatizada y se seguía revisando de forma manual.
 
-La Figura \ref{fig:diagrama_flujo} resume la lógica que sigue la versión final del script en cada revisión (con el intervalo de 4 minutos y las mejoras descritas en el Capítulo 5).
+La Figura \ref{fig:diagrama_flujo} resume la lógica que sigue la versión final del script en cada revisión (con el intervalo de 4 minutos y las mejoras descritas en Resultados).
 
 \begin{figure}[h]
     \centering

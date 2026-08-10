@@ -28,7 +28,14 @@
     language=Python,
     keywordstyle=\color{blue},
     commentstyle=\color{gray},
-    stringstyle=\color{teal}
+    stringstyle=\color{teal},
+    extendedchars=true,
+    inputencoding=utf8,
+    literate=
+        {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+        {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+        {ñ}{{\~n}}1 {Ñ}{{\~N}}1
+        {¿}{{?`}}1 {¡}{{!`}}1
 }
 \usepackage{caption}
 \usepackage{subcaption}
@@ -402,7 +409,7 @@ As a result, the accumulated AWS alerts were fully classified, and the TIBCO Scr
 
 \subsection*{Código fuente del script de monitoreo}
 
-A continuación se incluye el código completo del script de monitoreo de TIBCO Scribe desarrollado durante la Estadía, descrito en el Capítulo 4.
+A continuación se incluye el código completo del script de monitoreo de TIBCO Scribe desarrollado durante la Estadía, descrito en Metodología.
 
 \lstinputlisting[caption={Script completo de monitoreo de TIBCO Scribe.}, label={lst:monitoreo_completo}]{monitoreo.py}
 

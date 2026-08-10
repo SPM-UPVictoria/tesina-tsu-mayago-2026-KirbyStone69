@@ -39,7 +39,7 @@ def borrar_mensaje_telegram(message_id):
 
 
 def avisar_inicio_bot():
-    message_id = enviar_telegram("🤖 Bot de monitoreo iniciado")
+    message_id = enviar_telegram("[BOT] Bot de monitoreo iniciado")
     if message_id is not None:
         time.sleep(2)
         borrar_mensaje_telegram(message_id)
@@ -149,10 +149,10 @@ REGLAS = {
 }
 
 COLORES = {
-    "CompletedSuccessfully": "🟢 CompletedSuccessfully",
-    "InProgress": "⚪ InProgress",
-    "CompletedWithErrors": "🟡 CompletedWithErrors",
-    "FatalError": "🟥 FatalError",
+    "CompletedSuccessfully": "[OK] CompletedSuccessfully",
+    "InProgress": "[EN PROCESO] InProgress",
+    "CompletedWithErrors": "[ADVERTENCIA] CompletedWithErrors",
+    "FatalError": "[ERROR] FatalError",
 }
 
 rachas_activas = {}
@@ -285,8 +285,8 @@ def debe_reportar(estado, inicio, cantidad_en_racha):
 
 
 def reportar_scribesoft(nombre, estado, inicio):
-    color = COLORES.get(estado, f"❓ {estado}")
-    mensaje = f"🚨 '{nombre}' posiblemente caída -- en {color} desde {formatear_hora_local(inicio)}"
+    color = COLORES.get(estado, f"[?] {estado}")
+    mensaje = f"[ALERTA] '{nombre}' posiblemente caída -- en {color} desde {formatear_hora_local(inicio)}"
     print(f"\n{mensaje}\n")
     enviar_telegram(mensaje)
 
@@ -322,7 +322,7 @@ def revisar_scribesoft():
 
             for j, item in enumerate(historial, start=1):
                 estado_item = item["result"]
-                color_item = COLORES.get(estado_item, f"❓ SIN MAPEAR ({estado_item})")
+                color_item = COLORES.get(estado_item, f"[?] SIN MAPEAR ({estado_item})")
                 dt_item = datetime.fromisoformat(item["start"].replace("Z", "+00:00"))
                 print(f"  {j}. {color_item}  -  {formatear_hora_local(dt_item)}")
 
@@ -347,9 +347,9 @@ def revisar_scribesoft():
                 rachas_activas[clave] = {"estado": estado_actual, "inicio": inicio_racha, "reportado": False}
 
             info = rachas_activas[clave]
-            color = COLORES.get(estado_actual, f"❓ {estado_actual}")
+            color = COLORES.get(estado_actual, f"[?] {estado_actual}")
             muteada = es_muteada(nombre)
-            tag_mute = "  🔇 (muteada, no se manda alerta)" if muteada else ""
+            tag_mute = "  [MUTE] (muteada, no se manda alerta)" if muteada else ""
             resumen_rachas.append(
                 f"  [{org_nombre}] {nombre}: {color} -- {cantidad} seguidos, desde {formatear_hora_local(info['inicio'])}{tag_mute}"
             )
@@ -409,7 +409,7 @@ def procesar_comando(texto, responder):
         hora_local = formatear_hora_local(expiracion)
         matches = buscar_nombres_por_codigo(codigo)
 
-        mensaje = f"🔇 Muteado '{codigo}' hasta las {hora_local}."
+        mensaje = f"[MUTE] Muteado '{codigo}' hasta las {hora_local}."
         if matches:
             mensaje += "\nSolutions que matchean ahora mismo:\n" + "\n".join(
                 f"  - [{org}] {nombre}" for org, nombre in matches
@@ -433,7 +433,7 @@ def procesar_comando(texto, responder):
                 guardar_mutes()
 
         if existia:
-            responder(f"🔊 '{codigo}' ya no está muteado.")
+            responder(f"[UNMUTE] '{codigo}' ya no está muteado.")
         else:
             responder(f"'{codigo}' no estaba muteado.")
 
@@ -446,7 +446,7 @@ def procesar_comando(texto, responder):
             responder("No hay mutes activos.")
             return
 
-        lineas = ["🔇 Mutes activos:"]
+        lineas = ["[MUTE] Mutes activos:"]
         for codigo, expiracion in sorted(copia.items()):
             hora_local = formatear_hora_local(expiracion)
             matches = buscar_nombres_por_codigo(codigo)

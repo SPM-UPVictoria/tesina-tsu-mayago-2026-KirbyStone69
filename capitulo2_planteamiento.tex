@@ -1,4 +1,4 @@
-\section{Capítulo 2 --- Planteamiento del problema}
+\section{Planteamiento del problema}
 \label{ch:planteamiento}
 
 \subsection{Antecedentes del problema}
@@ -41,11 +41,11 @@ Integrarse a la Mesa de Servicio del CCoE para apoyar en el uso de sus distintas
 \label{subsec:objetivos_especificos}
 
 \begin{itemize}
-    \item Verificar las alertas activas generadas en AWS para identificar falsos positivos y reportar los incidentes reales a los clientes correspondientes.
-    \item Revisar los logs de instancias en Google Cloud Platform para detectar problemas de latencia y errores recurrentes.
-    \item Monitorear el estado de las soluciones y Agents de TIBCO Scribe (Scribesoft) para verificar su disponibilidad.
-    \item Desarrollar un script de monitoreo automatizado que notificara mediante un bot de Telegram cuando una solución de TIBCO Scribe presentara fallas recurrentes.
-    \item Dar seguimiento a las alertas registradas en ServiceNow para notificar oportunamente al equipo responsable de su atención.
+    \item Verificar las alertas activas generadas en AWS, mediante las métricas de Amazon CloudWatch, para identificar falsos positivos y reportar los incidentes reales a los clientes correspondientes.
+    \item Revisar los logs de instancias en Google Cloud Platform, mediante su consola de administración, para detectar problemas de latencia y errores recurrentes.
+    \item Monitorear el estado de las soluciones y Agents de TIBCO Scribe (Scribesoft), revisando directamente los paneles de la plataforma, para verificar su disponibilidad.
+    \item Desarrollar, en Python, un script de monitoreo automatizado que se conectara a TIBCO Scribe y notificara mediante un bot de Telegram cuando una solución presentara fallas recurrentes.
+    \item Dar seguimiento a las alertas registradas en ServiceNow, mediante revisión constante de su bandeja, para notificar oportunamente al equipo responsable de su atención.
 \end{itemize}
 
 \subsection{Alcance y limitaciones}

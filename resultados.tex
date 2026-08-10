@@ -1,4 +1,4 @@
-\section{Capítulo 5 --- Resultados}
+\section{Resultados}
 \label{ch:resultados}
 
 \subsection{Estado final}
@@ -6,7 +6,7 @@
 
 Al cierre de la Estadía, las 129 alertas de AWS registradas en el diagnóstico inicial se clasificaron por completo entre patrones programados y fallas reales; ese trabajo tomó varios días de revisión continua.
 
-El script de monitoreo de TIBCO Scribe también evolucionó respecto a la primera versión descrita en el Capítulo 4. En la versión final, la regla del estado de error fatal —que en un inicio se seguía revisando de forma manual— quedó automatizada: el script revisa el historial completo de cada solución, reporta cada ejecución en error fatal de forma individual sin repetir el mismo evento dos veces, y evita alertar sobre caídas que ya existían antes de que el script arrancara, para no saturar de avisos viejos. También se agregó la posibilidad de silenciar temporalmente, mediante un comando enviado al bot de Telegram, las alertas de una solución específica cuando el equipo ya tenía conocimiento de una falla en curso.
+El script de monitoreo de TIBCO Scribe también evolucionó respecto a la primera versión descrita en Metodología. En la versión final, la regla del estado de error fatal —que en un inicio se seguía revisando de forma manual— quedó automatizada: el script revisa el historial completo de cada solución, reporta cada ejecución en error fatal de forma individual sin repetir el mismo evento dos veces, y evita alertar sobre caídas que ya existían antes de que el script arrancara, para no saturar de avisos viejos. También se agregó la posibilidad de silenciar temporalmente, mediante un comando enviado al bot de Telegram, las alertas de una solución específica cuando el equipo ya tenía conocimiento de una falla en curso.
 
 \subsection{Comparativo antes/después}
 \label{sec:comparativo}
