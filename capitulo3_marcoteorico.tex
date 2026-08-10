@@ -1,12 +1,69 @@
 \section{Marco teórico}
 \label{ch:marcoteorico}
 
+\subsection{Cómputo en la nube}
+\label{sec:computo_nube}
+
+El cómputo en la nube (\textit{cloud computing}) es el acceso, bajo demanda y a través de internet, a recursos informáticos como servidores, almacenamiento y herramientas de desarrollo, alojados en centros de datos administrados por un proveedor externo, generalmente bajo un esquema de pago por uso \cite{canvia_cloud_computing_2023}. Este modelo permite a las organizaciones escalar su infraestructura sin invertir en equipo propio, y es la base sobre la que operan las plataformas utilizadas durante la Estadía: AWS, Google Cloud Platform y Microsoft Azure.
+
+\subsection{Modelos de servicio en la nube}
+\label{sec:modelos_servicio}
+
+Dentro del cómputo en la nube existen tres modelos de servicio principales, que se diferencian por cuánto administra el proveedor y cuánto administra el usuario. La Infraestructura como Servicio (\textit{IaaS}) consiste en proveer y gestionar recursos de cómputo básicos —servidores, almacenamiento y redes—, dejando a cargo del usuario el sistema operativo y las aplicaciones que corren sobre ellos. La Plataforma como Servicio (\textit{PaaS}) va un paso más allá y ofrece un entorno de desarrollo listo para usar, sin que el usuario tenga que administrar la infraestructura sobre la que corre. El Software como Servicio (\textit{SaaS}) es el modelo más completo: el proveedor distribuye una aplicación ya terminada, y el usuario solo la utiliza a través de internet, generalmente mediante suscripción \cite{stackscale_modelos_servicio_2023}.
+
+AWS, Google Cloud Platform y Microsoft Azure, las tres plataformas utilizadas durante la Estadía, ofrecen los tres modelos; el trabajo en la Mesa de Servicio se centró en monitorear recursos de tipo IaaS, como servidores e instancias, dentro de esas plataformas.
+
+\subsection{Proveedores de servicios en la nube}
+\label{sec:proveedores_nube}
+
+Amazon Web Services (AWS), operado por Amazon, fue uno de los primeros proveedores públicos de cómputo en la nube y ofrece principalmente servicios de tipo IaaS. Microsoft Azure, operado por Microsoft, se integra con el resto del ecosistema de software de esa empresa y destaca por su oferta particularmente amplia de servicios PaaS. Google Cloud Platform (GCP), operado por Google, ofrece igualmente servicios de tipo IaaS y se distingue por sus herramientas de inteligencia artificial y aprendizaje automático. Los tres son considerados los principales proveedores públicos de nube por su cobertura de servicios y presencia en el mercado \cite{muycomputerpro_proveedores_nube_2023}.
+
+Durante la Estadía, la Mesa de Servicio del CCoE dio seguimiento a clientes que operan en las tres plataformas; el trabajo descrito en este reporte se concentró en AWS y Google Cloud Platform, los proveedores sobre los que se verificaron alertas y logs de forma directa.
+
+\subsection{ITIL}
+\label{sec:itil}
+
+ITIL (\textit{Information Technology Infrastructure Library}, o Biblioteca de Infraestructura de Tecnologías de la Información) es un marco de mejores prácticas para la gestión de servicios de TI, que ofrece un enfoque sistemático para estandarizar procesos como la gestión de incidentes, de solicitudes y de cambios \cite{coursera_itil_2024}. Honne opera bajo este marco \cite{honne_oficial_2026}, y varios de los procesos descritos en este reporte —la Mesa de Servicio como punto único de contacto, y la verificación de un evento antes de reportarlo— corresponden a prácticas definidas dentro de él.
+
+\subsection{Mesa de Servicio}
+\label{sec:mesa_servicio}
+
+Una Mesa de Servicio (\textit{Service Desk}) es una unidad funcional que actúa como punto único de contacto entre una organización de TI y los usuarios o clientes que dependen de sus servicios, y es uno de los conceptos definidos dentro del marco ITIL descrito arriba. Su objetivo principal es restaurar el nivel óptimo de servicio lo antes posible cuando ocurre una falla; para ello recibe y registra solicitudes e incidentes, les da seguimiento hasta su resolución, y analiza la información recopilada para identificar fortalezas y debilidades en la operación \cite{itglobal_service_desk}.
+
+La Mesa de Servicio del CCoE, área donde se realizó la Estadía, aplica este concepto sobre los servicios en la nube de sus clientes: recibe las solicitudes que estos hacen sobre sus servidores y bases de datos en AWS, Google Cloud Platform y Microsoft Azure, vigila que esos servicios funcionen correctamente y avisa cuando algo falla, sin corregir la falla de forma directa.
+
+\subsection{Plataformas de integración}
+\label{sec:plataformas_integracion}
+
+Una plataforma de integración empresarial es una solución que conecta y coordina distintos sistemas y aplicaciones para que compartan datos entre sí de forma automática, en lugar de hacerlo manualmente o mediante conexiones aisladas entre cada par de sistemas. Su función principal es centralizar el control, la administración y el monitoreo de esas conexiones desde un solo lugar, resolviendo el problema de los silos de información que surge cuando una organización usa varios sistemas especializados sin conexión entre ellos \cite{softwaregroup_integracion_empresarial}. Este tipo de plataformas suele ofrecerse bajo el modelo SaaS descrito anteriormente: el proveedor aloja y mantiene la herramienta, y el cliente solo la usa para configurar y supervisar sus integraciones.
+
+TIBCO Scribe (Scribesoft) es una plataforma de este tipo, y Honne la utiliza como parte de sus herramientas de integración. Dentro de ella, cada conexión configurada se llama una \textit{solution}; durante la Estadía se monitorearon alrededor de 32 soluciones pertenecientes a dos instituciones educativas clientes de Honne, verificando que cada una se ejecutara correctamente. El detalle de ese monitoreo y de su automatización se describe en Metodología.
+
+\subsection{APIs}
+\label{sec:apis}
+
+Una interfaz de programación de aplicaciones (API, por sus siglas en inglés) es un conjunto de reglas y protocolos que permite que dos aplicaciones de software se comuniquen entre sí, actuando como intermediaria: una aplicación envía una solicitud a través de la API, y esta se encarga de obtener y devolver la información solicitada sin que el usuario final vea ese proceso \cite{xataka_api_2025}.
+
+Muchas plataformas, incluidas las de integración descritas en el apartado anterior, exponen una API para que otros programas puedan consultar su información de forma automatizada, en lugar de depender de la interfaz web pensada para personas. Cuando esa API no está documentada públicamente, como ocurrió con TIBCO Scribe durante la Estadía, es necesario recurrir a la ingeniería inversa de APIs, descrita en el siguiente apartado.
+
+\subsection{Scripts, bots y la API de Telegram}
+\label{sec:scripts_bots_telegram}
+
+Un script es un programa que automatiza una tarea repetitiva, ejecutando el mismo conjunto de instrucciones una y otra vez sin intervención humana, generalmente dentro de un ciclo con una pausa entre cada repetición. Un bot es distinto: es un programa que permanece a la espera de instrucciones enviadas por una persona, generalmente a través de una interfaz de mensajería, y responde a ellas cuando llegan \cite{apidog_telegram_bot_api_2025}. En el caso de Telegram, un bot se crea a través de BotFather, la cuenta oficial que administra la creación de bots en la plataforma, la cual entrega un token: una clave única que identifica al bot y que debe incluirse en cada solicitud para comunicarse con la API de Telegram, por ejemplo mediante el endpoint \texttt{sendMessage} para enviar mensajes a un chat.
+
+El programa desarrollado durante la Estadía, descrito en Metodología, combina ambos conceptos. La parte que revisa TIBCO Scribe cada 4 minutos es un script: un ciclo que repite la misma consulta por sí solo, sin que nadie se lo pida. La parte que atiende los comandos \texttt{/mute}, \texttt{/unmute} y \texttt{/muted} enviados por el equipo sí corresponde a un bot, porque espera y responde a instrucciones en lugar de repetir una tarea de forma autónoma. Ambas partes usan el mismo token de Telegram para autenticarse ante la API.
+
+\subsection{Monitoreo de infraestructura en la nube}
+\label{sec:monitoreo_nube}
+
 En el monitoreo de infraestructura en la nube, se conoce como falso positivo a una alerta que se genera por un comportamiento aparentemente anómalo, pero que en realidad corresponde a una operación normal o programada del sistema. Cuando estas alertas no se filtran, se produce lo que se conoce como fatiga de alertas: el equipo revisa notificaciones innecesarias, lo que puede provocar que un incidente real pase desapercibido entre el ruido \cite{manageengine_falsos_positivos}.
 
 Para distinguir un falso positivo de un incidente real, es común aplicar un umbral de persistencia: un criterio de tiempo o de repeticiones que debe cumplirse antes de considerar que un comportamiento anómalo representa una falla real. Durante la Estadía, este criterio se aplicó de forma práctica en la verificación de alertas de AWS: si el uso elevado de un recurso (CPU, disco o memoria) se mantenía por más de 15 minutos, se consideraba un incidente real y se reportaba; si el comportamiento coincidía con un patrón programado y recurrente, se descartaba como falso positivo.
 
-Honne opera bajo el marco de gestión de servicios de TI ITIL \cite{honne_oficial_2026}, cuyo proceso de gestión de incidentes establece que un evento debe verificarse y clasificarse antes de ser reportado o escalado \cite{manageengine_itil_incidentes}. La práctica de verificación descrita en este reporte es consistente con ese proceso, aunque no se aplicó siguiendo una capacitación formal en el marco.
+Dentro de ITIL, el proceso de gestión de incidentes establece que un evento debe verificarse y clasificarse antes de ser reportado o escalado \cite{manageengine_itil_incidentes}. La práctica de verificación descrita en este reporte es consistente con ese proceso, aunque no se aplicó siguiendo una capacitación formal en el marco.
 
 Otro concepto relevante es la automatización en monitoreo, que consiste en el uso de herramientas y programas para supervisar sistemas de forma continua y notificar de manera automática al equipo responsable cuando se detecta una condición anómala \cite{tobeit_automatizacion_monitorizacion}. El script desarrollado durante la Estadía para monitorear TIBCO Scribe, descrito en Metodología, aplica este concepto al conectarse periódicamente a la API de la herramienta y enviar notificaciones a un bot de Telegram cuando detecta fallas recurrentes.
 
 Como TIBCO Scribe no ofrece una API pública documentada para consultar el historial de ejecuciones, fue necesario recurrir a la ingeniería inversa de APIs: el proceso de analizar el comportamiento, los endpoints y las estructuras de datos de una API sin depender de documentación oficial, inspeccionando el tráfico de red que genera la aplicación para identificar y replicar sus llamadas internas \cite{apidog_ingenieria_inversa_apis}. Esta técnica se describe con más detalle en Metodología.
+
+Estos conceptos forman una misma cadena: el cómputo en la nube y sus modelos de servicio son la base sobre la que operan proveedores como AWS, Google Cloud Platform y Microsoft Azure, y es sobre esos servicios que la Mesa de Servicio del CCoE trabaja bajo los principios de ITIL. El monitoreo, la automatización con scripts y bots, y las APIs que la hicieron posible, son la forma concreta en la que esos conceptos se aplicaron durante la Estadía, como se detalla en Metodología y Resultados.
