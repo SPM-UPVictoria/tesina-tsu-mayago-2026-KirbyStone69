@@ -11,7 +11,7 @@ El script de monitoreo de TIBCO Scribe también evolucionó respecto a la primer
 \subsection{Comparativo antes/después}
 \label{sec:comparativo}
 
-Antes de contar con el script, revisar manualmente el estado de las soluciones de TIBCO Scribe tomaba entre 3 y 4 minutos por cada verificación, ya que era necesario abrir cada pestaña de forma individual, aplicar el filtro y esperar el resultado de la consulta. Esta revisión se repetía cada 30 minutos a lo largo de la jornada laboral. Con el script en funcionamiento, esa verificación se realiza de forma automática cada pocos minutos, sin requerir tiempo de ninguna persona del equipo; el trabajo humano se limita a atender las notificaciones que el bot envía cuando detecta una falla real.
+Antes de contar con el script, revisar a mano el estado de las soluciones de TIBCO Scribe tomaba entre 3 y 4 minutos por cada institución educativa: había que seleccionar cada solución en el menú, aplicar el filtro y esperar el resultado de la consulta, unas 16 veces por cliente. La ronda completa de las dos instituciones, es decir las 32 soluciones, tomaba entre 6 y 7 minutos, y se repetía cada 30 minutos durante toda la jornada. Con el script, esa misma ronda se hace sola cada 4 minutos y no ocupa el tiempo de nadie: el equipo únicamente atiende las notificaciones que el bot envía cuando encuentra una falla real.
 
 \subsection{Evidencia fotográfica}
 \label{sec:evidencia_fotografica}
@@ -33,6 +33,6 @@ Antes de contar con el script, revisar manualmente el estado de las soluciones d
 \subsection{Análisis de los resultados}
 \label{sec:analisis_resultados}
 
-El objetivo de automatizar el monitoreo de TIBCO Scribe se cumplió por completo: la versión final del script cubre incluso la regla del estado de error fatal, que en un inicio se seguía revisando de forma manual. Suponiendo una jornada laboral de 8 horas y una revisión manual cada 30 minutos (16 revisiones al día, de 3 a 4 minutos cada una), esta automatización libera aproximadamente 56 minutos de trabajo manual por día, cerca de 19 horas al mes que el equipo puede destinar a la atención de incidentes reales en lugar de revisiones repetitivas.
+El objetivo de automatizar el monitoreo de TIBCO Scribe se cumplió por completo: la versión final del script cubre incluso la regla del estado de error fatal, que en un inicio se seguía revisando de forma manual. En una jornada de 8 horas con una revisión cada 30 minutos son 16 rondas al día; a 6 o 7 minutos por ronda, la automatización libera alrededor de 105 minutos diarios, cerca de 35 horas al mes considerando 20 días laborales. Ese tiempo el equipo lo puede destinar a atender incidentes reales en lugar de revisiones repetitivas.
 
 En el caso de AWS, Google Cloud Platform y ServiceNow, el objetivo de verificar y reportar alertas también se cumplió, pero de forma manual en los tres casos; a diferencia de TIBCO Scribe, no se llegó a desarrollar una automatización similar para ellas, principalmente porque el tiempo de la Estadía se concentró en la herramienta que representaba la carga de trabajo más repetitiva. Esa automatización pendiente para AWS, GCP y ServiceNow queda como una oportunidad de mejora a futuro.
