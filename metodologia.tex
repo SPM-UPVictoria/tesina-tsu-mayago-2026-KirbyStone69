@@ -79,6 +79,8 @@ La Figura \ref{fig:diagrama_flujo} resume la lógica que sigue la versión final
     \label{fig:diagrama_flujo}
 \end{figure}
 
+\clearpage
+
 El siguiente fragmento, tomado de la versión final del script, muestra la función que decide si una racha de estados debe reportarse, aplicando las reglas de conteo y tiempo descritas arriba:
 
 \begin{lstlisting}[caption={Función que decide si reportar una alerta, según la regla configurada para cada estado.}, label={lst:debe_reportar}]
@@ -105,6 +107,8 @@ def debe_reportar(estado, inicio, cantidad_en_racha):
 
     return False
 \end{lstlisting}
+
+Con el uso del script, identifiqué que algunas soluciones estaban en periodo de pruebas y fallaban constantemente, generando falsos positivos de forma repetida y ya conocida por el equipo. Por esa razón se agregó al bot un comando (\texttt{/mute}) para silenciar temporalmente las alertas de esas soluciones específicas, evitando avisos innecesarios sin dejar de vigilar al resto.
 
 \textbf{Seguimiento a ServiceNow.} A diferencia de las otras herramientas, ServiceNow no generaba notificaciones automáticas de error, por lo que había que mantenerse atento a la bandeja de forma constante mientras se realizaban otras tareas, dado que correspondía a un cliente importante (ver Figura \ref{fig:servicenow}). La frecuencia de revisión variaba según la herramienta: GCP se revisaba cada hora, TIBCO Scribe cada 30 minutos, y ServiceNow de forma continua. Hacia el final de la Estadía, un compañero del equipo desarrolló un bot independiente que revisaba ServiceNow cada 12 segundos y notificaba automáticamente los errores; este desarrollo no formó parte de mi trabajo.
 
