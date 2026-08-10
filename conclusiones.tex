@@ -22,7 +22,7 @@ A nivel personal, el mayor reto al inicio fue la comunicación con el personal d
 \subsection{Recomendaciones a la empresa}
 \label{sec:recomendaciones}
 
-La principal recomendación es extender la automatización de monitoreo a las demás herramientas del área. El caso de TIBCO Scribe mostró que automatizar una revisión repetitiva libera tiempo del equipo para atender incidentes reales; aplicar un enfoque similar a la verificación de alertas de AWS, los logs de Google Cloud Platform y, sobre todo, a ServiceNow —donde actualmente no existe ningún tipo de notificación automática y se depende de la vigilancia constante del equipo— podría traer el mismo beneficio.
+La principal recomendación es extender la automatización de monitoreo a las herramientas que todavía se revisan manualmente. El caso de TIBCO Scribe mostró que automatizar una revisión repetitiva libera tiempo del equipo para atender incidentes reales; aplicar un enfoque similar a la verificación de alertas de AWS y a los logs de Google Cloud Platform podría traer el mismo beneficio. Para ServiceNow y otras herramientas, el equipo ya cuenta con bots de monitoreo desarrollados por otros compañeros, así que en vez de construir soluciones aisladas, tendría sentido integrar la lógica del script de TIBCO Scribe a alguno de esos proyectos existentes.
 
 \subsection{Recomendaciones al programa académico}
 \label{sec:recomendaciones_programa}
@@ -32,6 +32,6 @@ Se recomienda al programa académico reforzar contenidos prácticos relacionados
 \subsection{Trabajo pendiente o siguiente fase}
 \label{sec:trabajo_pendiente}
 
-Como trabajo pendiente para una siguiente fase, se identifican dos líneas principales: extender la automatización desarrollada para TIBCO Scribe a las demás herramientas de monitoreo (AWS, Google Cloud Platform y ServiceNow), y migrar el script de monitoreo de TIBCO Scribe desde mi equipo de cómputo personal hacia un servidor o equipo de la empresa, para que continúe funcionando de forma permanente una vez concluida la Estadía.
+Como trabajo pendiente para una siguiente fase, se identifican dos líneas principales: extender la lógica de automatización desarrollada para TIBCO Scribe a AWS y Google Cloud Platform, o integrarla a alguno de los proyectos de monitoreo que ya tienen otros compañeros del equipo en vez de mantenerla aislada; y migrar el script de monitoreo de TIBCO Scribe desde mi equipo de cómputo personal hacia un servidor o equipo de la empresa, para que continúe funcionando de forma permanente una vez concluida la Estadía.
 
 La Estadía en \UnidadEconomica\ dejó dos cosas en la Mesa de Servicio del CCoE: las 129 alertas de AWS revisadas y clasificadas, y un script de monitoreo que funcionó durante el resto de la Estadía y que el equipo puede seguir usando si se migra a un equipo de la empresa. Para mí fue la primera experiencia de trabajo real en un área de TI: con horarios, con compañeros que dependían de lo que yo reportara y con clientes del otro lado.
