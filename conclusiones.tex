@@ -1,7 +1,37 @@
-\section{Conclusiones}
-Incluye:
+\section{Conclusiones y recomendaciones}
+\label{ch:conclusiones}
+
+\subsection{Cierre por objetivo específico}
+\label{sec:cierre_objetivos}
+
 \begin{itemize}
-\item Resultados relevantes.
-\item Experiencia personal y profesional.
-\item Sugerencias de mejora.
+    \item \textbf{Verificar las alertas activas de AWS.} Se cumplió: las 129 alertas registradas en el diagnóstico inicial se clasificaron por completo entre patrones programados y fallas reales.
+    \item \textbf{Revisar los logs de instancias en Google Cloud Platform.} Se cumplió, aplicando los criterios de más de 20 registros de error y el umbral de persistencia de latencia descritos en Metodología, de forma manual durante toda la Estadía.
+    \item \textbf{Monitorear el estado de las soluciones y Agents de TIBCO Scribe.} Se cumplió, inicialmente de forma manual y después apoyado por el script de automatización.
+    \item \textbf{Desarrollar un script de monitoreo automatizado para TIBCO Scribe.} Se cumplió y se superó lo planteado: la versión final del script automatizó incluso la regla del estado de error fatal, que en un inicio se pensaba mantener manual, y se agregó la posibilidad de silenciar alertas conocidas.
+    \item \textbf{Dar seguimiento a las alertas de ServiceNow.} Se cumplió de forma manual y constante a lo largo de toda la Estadía, ya que esta herramienta no generaba notificaciones automáticas.
 \end{itemize}
+
+\subsection{Aprendizaje profesional y personal}
+\label{sec:aprendizaje}
+
+A nivel profesional, la Estadía me sirvió para entender mejor cómo funcionan los servicios en la nube y cómo viaja una petición entre un cliente y esos servicios. Sobre la automatización, lo que me quedó claro es que el problema de revisar la misma pantalla más de treinta veces seguidas no es únicamente el tiempo que consume: es que uno se cansa y empieza a pasar cosas por alto. El script no. También aprendí a distinguir una falla real de un falso positivo, un criterio que al principio tuve que consultar con el equipo, porque ellos ya lo aplicaban por experiencia, y que con las semanas terminé aplicando por mi cuenta.
+
+A nivel personal, el mayor reto al inicio fue la comunicación con el personal del área: acostumbrarme a consultar dudas, coordinar tareas y reportar hallazgos con compañeros y superiores que ya tenían experiencia en el equipo. Con el tiempo esto dejó de ser un obstáculo. En cuanto al conocimiento técnico, llegué con las bases de AWS y salí con esas mismas bases más reforzadas por la práctica, ya que el trabajo en la Mesa de Servicio se concentró en el monitoreo con CloudWatch y no hubo oportunidad de profundizar en otras áreas de la plataforma. Lo que más me deja satisfecho de la Estadía es haber logrado que el script de monitoreo de TIBCO Scribe funcionara correctamente, al ser un desarrollo que hice por iniciativa propia.
+
+\subsection{Recomendaciones a la empresa}
+\label{sec:recomendaciones}
+
+La principal recomendación es extender la automatización de monitoreo a las herramientas que todavía se revisan manualmente. El caso de TIBCO Scribe mostró que automatizar una revisión repetitiva libera tiempo del equipo para atender incidentes reales; aplicar un enfoque similar a la verificación de alertas de AWS y a los logs de Google Cloud Platform podría traer el mismo beneficio. Para ServiceNow y otras herramientas, el equipo ya cuenta con bots de monitoreo desarrollados por otros compañeros, así que en vez de construir soluciones aisladas, tendría sentido integrar la lógica del script de TIBCO Scribe a alguno de esos proyectos existentes.
+
+\subsection{Recomendaciones al programa académico}
+\label{sec:recomendaciones_programa}
+
+Se recomienda al programa académico reforzar contenidos prácticos relacionados con Google Cloud Platform y conceptos de monitoreo de infraestructura, ya que durante la Estadía este conocimiento tuvo que adquirirse directamente en campo. La formación académica sí incluyó una introducción a AWS, pero no cubrió otras plataformas de nube ni conceptos de monitoreo, más allá de la materia de Redes.
+
+\subsection{Trabajo pendiente o siguiente fase}
+\label{sec:trabajo_pendiente}
+
+Como trabajo pendiente para una siguiente fase, se identifican dos líneas principales: extender la lógica de automatización desarrollada para TIBCO Scribe a AWS y Google Cloud Platform, o integrarla a alguno de los proyectos de monitoreo que ya tienen otros compañeros del equipo en vez de mantenerla aislada; y migrar el script de monitoreo de TIBCO Scribe desde mi equipo de cómputo personal hacia un servidor o equipo de la empresa, para que continúe funcionando de forma permanente una vez concluida la Estadía.
+
+La Estadía en \UnidadEconomica\ dejó dos cosas en la Mesa de Servicio del CCoE: las 129 alertas de AWS revisadas y clasificadas, y un script de monitoreo que funcionó durante el resto de la Estadía y que el equipo puede seguir usando si se migra a un equipo de la empresa. Para mí fue la primera experiencia de trabajo real en un área de TI: con horarios, con compañeros que dependían de lo que yo reportara y con clientes del otro lado.

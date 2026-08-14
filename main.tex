@@ -18,8 +18,29 @@
 \usepackage{xcolor}
 \usepackage{multirow}
 \usepackage{listings}
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    columns=fullflexible,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny,
+    language=Python,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{teal},
+    showstringspaces=false,
+    extendedchars=true,
+    inputencoding=utf8,
+    literate=
+        {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+        {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+        {ñ}{{\~n}}1 {Ñ}{{\~N}}1
+        {¿}{{?`}}1 {¡}{{!`}}1
+}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{float}
 %\usepackage{parskip}
 \usepackage[skip=12pt plus1pt]{parskip}
 \usepackage{pdfpages} % Incluir PDF en documento en LATEX
@@ -78,17 +99,17 @@
 
 
 % CONSTANTES NECESARIAS PARA EL DOCUMENTO ---> MODIFIQUEN A SU CRITERIO
-\newcommand{\NombreAlumno}{Michael Jackson Perez Black}
+\newcommand{\NombreAlumno}{Eder Omar Zúñiga Zavala}
 \soulregister{\NombreAlumno}{1}
 % NUNCA PONGAN EL TITULO EN MAYUSCULAS!!
-\newcommand{\NombreProyecto}{Notificación de actualizaciones de la información en un sistema de información web de pacientes hospitalizados a sus familiares del Sagrado Corazón de Jesus } 
+\newcommand{\NombreProyecto}{Honne S.A. de C.V.}
 % Noten los \\ para insertar un ENTER del texto en el encabezado. NUNCA PONGAN EL TITULO EN MAYUSCULAS!!
-\newcommand{\NombreProyectoheader}{Notificación de actualizaciones de la información \\en un sistema de información web de pacientes\\ hospitalizados a sus familiares del Sagrado Corazón de Jesus}
+\newcommand{\NombreProyectoheader}{Honne S.A. de C.V.}
 \newcommand{\NombreTSU}{Desarrollo de Software Multiplataforma}
-\newcommand{\UnidadEconomica}{Departamento de Psiquiatría Homeopática, Hospital San Jose Bonaventura}
-\newcommand{\nasesorempresaria}   {Dr. Shawn Murphy}
+\newcommand{\UnidadEconomica}{Honne S.A. de C.V.}
+\newcommand{\nasesorempresaria}   {Oscar David Galindo Olvera}
 \newcommand{\nasesorinstitucional}{Dr. Said Polanco Martagón}
-\newcommand{\Matricula}           {1730505}  %SU MATRICULA
+\newcommand{\Matricula}           {2430206}  %SU MATRICULA
 \newcommand{\ncuatrimestre}{Mayo-Agosto 2026}
 % ESTA ES LA FECHA EN LA QUE EL ASESOR INSTITUCIONA EVALUA EL INFORME
 \newcommand{\fechaAutorizacionInforme}               {31 de Julio de 2026} 
@@ -170,9 +191,9 @@
 
 {\Large \textbf{UNIVERSIDAD POLITÉCNICA DE VICTORIA}}\\[1.0cm]
 
-{\Large \textbf{REPORTE DE ACTIVIDADES DEL PROYECTO}}\\[0.75cm]
+{\Large \textbf{REPORTE TÉCNICO DE ACTIVIDADES DE ESTADÍA UNIVERSITARIA}}\\[0.75cm]
 
-{\Large \MakeUppercase{\NombreProyecto}}\\[1.0cm]
+{\Large EN \MakeUppercase{\NombreProyecto}}\\[1.0cm]
 
 QUE PRESENTA
 
@@ -221,7 +242,7 @@ Matrícula: \textbf{\Matricula}  \\[0.125cm]
 Programa Académico: \textbf{\ncarrera}  \\[0.25cm]
 
 \noindent
-Por medio del presente, se le informa que tras realizar su Estadía en la empresa \textbf{\UnidadEconomica} llevando a cabo el proyecto: \textbf{\NombreProyecto}, durante el periodo comprendido \textbf{\ncuatrimestre} logrando una ponderación de \_\_\_\_  (60\% posibles) para el criterio de reporte; por lo tanto, se otorga la oportunidad de exponer el trabajo realizado por medio de un informe ejecutivo programado para el día \textbf{\DiaEvaluacionPesentacion} del mes de \textbf{\MesEvaluacionPesentacion} del año en curso en un horario de \textbf{\HoraEvaluacionPesentacion} en modalidad \textbf{\modalidadEvaluacionPesentacion} en \textbf{\tipoAulaOficinaEnlacePesentacion} \textbf{\AulaEvaluacionOEnlaceMeetPesentacion}.
+Por medio del presente, se le informa que tras realizar su Estadía en la empresa \textbf{\UnidadEconomica}, desarrollando el \textbf{Reporte Técnico de Actividades de Estadía Universitaria}, durante el periodo comprendido \textbf{\ncuatrimestre} logrando una ponderación de \_\_\_\_  (60\% posibles) para el criterio de reporte; por lo tanto, se otorga la oportunidad de exponer el trabajo realizado por medio de un informe ejecutivo programado para el día \textbf{\DiaEvaluacionPesentacion} del mes de \textbf{\MesEvaluacionPesentacion} del año en curso en un horario de \textbf{\HoraEvaluacionPesentacion} en modalidad \textbf{\modalidadEvaluacionPesentacion} en \textbf{\tipoAulaOficinaEnlacePesentacion} \textbf{\AulaEvaluacionOEnlaceMeetPesentacion}.
 
 \vspace{0.25cm}
 
@@ -282,7 +303,6 @@ Calificación final & \multicolumn{2}{c|}{ } \\ \hline
 
 
 
-
 %\vspace{1cm}
 
 %\noindent
@@ -304,27 +324,33 @@ Calificación final & \multicolumn{2}{c|}{ } \\ \hline
 \clearpage
 \ClearWallPaper
 \thispagestyle{fancy}
+\addcontentsline{toc}{section}{Agradecimientos}
+\section*{Agradecimientos}
+
+Se agradece a \UnidadEconomica\ por la oportunidad de realizar esta Estadía y por el apoyo brindado durante su desarrollo. De manera particular, se agradece al asesor de la unidad económica, \nasesorempresaria, por su guía y disposición a lo largo de las actividades realizadas, así como al asesor institucional, \nasesorinstitucional, por su acompañamiento y retroalimentación en la elaboración de este reporte.
+
+\clearpage
+\thispagestyle{fancy}
 \addcontentsline{toc}{section}{Resumen}
-%\vspace*{1cm}
 \section*{Resumen}
 
-El resumen es una representación condensada del contenido del documento. Su propósito es dar al lector un relato de las características principales del reporte. Su redacción es en tercera persona, en tiempo pasado, con escritura continua y sin tablas o imágenes. La extensión sugerida es no mayor a media página. Debe cumplir con las siguientes características:
+El presente reporte documenta las actividades realizadas durante la Estadía Universitaria en \UnidadEconomica, empresa de transformación tecnológica y consultoría cloud, en su Centro de Operación y Excelencia Multicloud (CCoE) ubicado en calle 533 Maratines, Ciudad Victoria, Tamaulipas. La Estadía se llevó a cabo en la Mesa de Servicio de ese centro, área responsable de vigilar la infraestructura en la nube de los clientes de la empresa y de reportar las fallas que se presentan en ella. El objetivo planteado fue apoyar en el uso de las herramientas de monitoreo del área y en sus actividades diarias, para distribuir la carga de trabajo del equipo.
 
-\begin{itemize}
-\item Se hace mención del nombre del proyecto como parte de la Estadía, el nombre de la unidad económica y su dirección completa.
-\item Se menciona el objetivo, meta, actividad o responsabilidad principal que se abordó.
-\item Se describe detalladamente la metodología desarrollada; tales como herramientas, materiales, equipos, cursos, softwares y conocimientos adquiridos en la universidad utilizados para alcanzar los objetivos empleados.
-\item Se describen detalladamente los resultados más importantes obtenidos.
-\item Se termina presentando conclusiones del trabajo.
-\end{itemize}
+El trabajo se organizó en cuatro frentes. Las alertas activas de AWS se verificaron con las métricas de Amazon CloudWatch, aplicando un umbral de persistencia de 15 minutos para separar los falsos positivos de los incidentes reales. Los registros de las instancias en Google Cloud Platform se revisaron desde la consola de la plataforma, buscando errores acumulados y latencias sostenidas. Las alertas de ServiceNow se atendieron mediante revisión continua de su bandeja. El monitoreo de las soluciones de TIBCO Scribe se hizo al principio a mano y más adelante con un script en Python desarrollado por iniciativa propia, que notifica las fallas a través de un bot de Telegram; como la plataforma no publica documentación de su API, fue necesario recurrir a la ingeniería inversa para replicar las llamadas que hace su propio panel web. De la formación académica, la materia de Redes fue la que más se aplicó, al facilitar la comprensión de los servicios en la nube y del manejo del panel de AWS.
 
+Las 129 alertas de AWS acumuladas quedaron clasificadas en su totalidad. El script de monitoreo sustituyó una revisión manual que ocupaba entre seis y siete minutos cada media hora, liberando tiempo que el equipo pudo destinar a otras tareas de monitoreo. Los objetivos planteados se cumplieron; el desarrollo del script fue la aportación principal de la Estadía, y extender esa automatización a las demás herramientas del área queda como oportunidad de mejora.
 
 \clearpage
 \thispagestyle{fancy}
 \addcontentsline{toc}{section}{Abstract}
 %\vspace*{1cm}
 \section*{Abstract}
-Add your abstract here...
+
+This report describes the work carried out during a university internship (Estadía) at \UnidadEconomica, a technology transformation and cloud consulting firm, in its Multicloud Operations and Excellence Center (CCoE) at calle 533 Maratines, Ciudad Victoria, Tamaulipas. The internship took place in the center's Service Desk, the team in charge of watching over client cloud infrastructure and reporting any failures found in it. The stated goal was to help operate the team's monitoring tools and share its daily workload.
+
+Four lines of work were covered. Active AWS alerts were checked against Amazon CloudWatch metrics, using a fifteen-minute persistence threshold to tell scheduled activity apart from genuine incidents. Instance logs in Google Cloud Platform were reviewed for accumulated errors and sustained latency. ServiceNow alerts were followed continuously, since that platform sends no automatic notifications of its own. TIBCO Scribe solutions were checked by hand at first, and later monitored by a Python script written on the author's own initiative, which reports failures through a Telegram bot. Because the platform publishes no API documentation, the internal calls made by its web panel had to be reverse-engineered. Of the coursework taken at university, the Networking course proved the most useful, as it made the cloud services and the AWS console easier to understand.
+
+All 129 accumulated AWS alerts were classified. The script replaced a manual check that took six to seven minutes every half hour, freeing up time the team could spend on other monitoring tasks. The objectives were met, the script being the main contribution of the internship; extending the same automation to the remaining tools is left as an opportunity for improvement.
 
 \clearpage
 %\renewcommand{\indexname}{Contenido temático}
@@ -334,14 +360,21 @@ Add your abstract here...
 \tableofcontents
 
 
-%\chapter{Introducción}
-
 \clearpage
 \pagenumbering{arabic}
 \setcounter{page}{1}
 \pagestyle{fancy}
 
 \input{introduccion}
+
+\clearpage
+\input{capitulo1_generalidades}
+
+\clearpage
+\input{capitulo2_planteamiento}
+
+\clearpage
+\input{capitulo3_marcoteorico}
 
 %\chapter{Metodología}
 \clearpage
@@ -364,15 +397,29 @@ Add your abstract here...
 \printbibliography
  
 \clearpage
-\addcontentsline{toc}{section}{Anexos} 
+\addcontentsline{toc}{section}{Anexos}
+\section*{Anexos}
 
+\subsection*{Cronograma de actividades}
 
+\begin{itemize}
+    \item \textbf{Primer mes (mediados de mayo -- mediados de junio):} verificación de alertas activas de AWS.
+    \item \textbf{Segundo mes (mediados de junio -- mediados de julio):} revisión de logs de instancias en Google Cloud Platform.
+    \item \textbf{Tercer mes en adelante (mediados de julio -- cierre de la Estadía):} monitoreo de TIBCO Scribe y desarrollo del script de automatización.
+    \item \textbf{Constante durante toda la Estadía:} seguimiento a las alertas de ServiceNow.
+\end{itemize}
+
+\subsection*{Código fuente del script de monitoreo}
+
+A continuación se incluye el código completo del script de monitoreo de TIBCO Scribe desarrollado durante la Estadía, descrito en Metodología.
+
+\lstinputlisting[caption={Script completo de monitoreo de TIBCO Scribe.}, label={lst:monitoreo_completo}]{monitoreo.py}
+
+\clearpage
 \thispagestyle{fancy}
-%\pagenumbering{roman}
-%\setcounter{page}{1}
 \includepdf[pages={1}]{documentosDigitalizados/SeguroFacultativo.pdf}
 
-% En las siguientes 3 paginas, debe incluir una digitalización de calidad de sus respectivas cartaas, no una fotografia toda cucha tomada con su celular de Coppel
+% En las siguientes 2 paginas, debe incluir una digitalización de calidad de sus respectivas cartas, no una fotografia toda cucha tomada con su celular de Coppel
 % Pagina 1: Digitalización de la carta de presentación (sustituir por una original en el empastado)
 \clearpage
 \thispagestyle{fancy}
@@ -385,7 +432,7 @@ Add your abstract here...
 \thispagestyle{fancy}
 \includepdf[pages={1}]{documentosDigitalizados/CartaAceptacion.pdf}
 
-% Pagina 3: Digitalización de la carta de liberación (sustituir por una original en el empastado)
+% Pagina 3: Digitalización de la carta de liberación
 \clearpage
 \thispagestyle{fancy}
 \includepdf[pages={1}]{documentosDigitalizados/CartaLiberacion.pdf}
@@ -460,123 +507,5 @@ Criterio &  Bueno ( 10\% ) & Regular (7\% ) & Menor a lo esperado (5\%) \\ \hlin
 
 
 \end{longtable}
-
-\end{document}
-
-
-
-
-
-
-
-
-\end{document}
-%\section*{Rúbrica para Exposición}
-%Completa aquí los criterios de dominio del tema, material visual, comunicación y respuestas.
-
-%\usepackage{longtable}
-%\usepackage{array}
-
-\begin{center}
-\textbf{RÚBRICA PARA LA EVALUACIÓN DEL REPORTE DE ESTADÍA}
-\end{center}
-
-\vspace{0.5cm}
-
-\noindent
-\textbf{NOMBRE DEL ESTUDIANTE:} NOMBRES Y APELLIDOS
-
-\noindent
-\textbf{PERIODO:} MAYO AGOSTO 2026
-
-\noindent
-\textbf{NOMBRE DEL EVALUADOR:} NOMBRES Y APELLIDOS
-
-\noindent
-\textbf{FIRMA DEL EVALUADOR:}
-
-\noindent
-\textbf{CALIFICACIÓN FINAL:} 60/100
-
-\vspace{0.5cm}
-
-\begin{longtable}{|c|C{7cm}|c|C{4cm}|}
-\hline
-\textbf{Valor} & \textbf{Características a cumplir} & \textbf{Puntos obtenidos} & \textbf{Observaciones} \\
-\hline
-6 & Resumen ejecutivo y abstract: Indica qué se realizó, cómo se realizó y qué se obtuvo. (una cuartilla en español e inglés) & & \\
-\hline
-6 & Contenido temático: Describe correctamente el contenido del documento & & \\
-\hline
-6 & Introducción: El informe cumple con introducir al lector de una manera atractiva el panorama general del trabajo realizado en la unidad económica. & & \\
-\hline
-6 & Descripción de la unidad económica: Se redactan los detalles de los antecedentes del departamento, la empresa, giro, misión, visión, infraestructura, ubicación. & & \\
-\hline
-6 & Objetivos operativos: Describen las acciones a cumplir mediante actividades establecidas por el asesor empresarial & & \\
-\hline
-24 & Metodología: Descripción a detalle de las etapas y procedimientos utilizados en el proyecto & & \\
-\hline
-18 & Resultados: Interpreta y analiza los resultados obtenidos durante su estadía. & & \\
-\hline
-12 & Conclusiones: Las conclusiones son claras y acordes con el objetivo esperado & & \\
-\hline
-6 & Bibliografía y anexos: Cita correctamente las fuentes de información utilizando un estilo de referencia; anexa cartas correspondientes & & \\
-\hline
-10 & Responsabilidad: Entregó el reporte en la fecha y hora señalada. Asistió al menos al 80\% de sus días de Estadía & & \\
-\hline
-\end{longtable}
-
-%\vspace{1cm}
-
-\clearpage
-\begin{center}
-\textbf{RÚBRICA PARA EXPOSICIÓN DEL REPORTE DE ESTADÍAS}
-\end{center}
-
-\begin{center}
-\textbf{Técnico Superior Universitario}
-\end{center}
-
-\vspace{0.5cm}
-\newcommand{\SizeFont}{\small}
-\begin{longtable}{|p{3cm}|p{4cm}|p{4cm}|p{4cm}|}
-\hline
-\textbf{Criterio} & \textbf{Bueno (10\%)} & \textbf{Regular (7\%)} & \textbf{Menor a lo esperado (5\%)} \\
-\hline
-Dominio del tema & Utiliza todos los términos y conceptos de manera correcta. & Utiliza la mayoría de los términos y conceptos de manera correcta. & Confunde los términos y conceptos. \\
-\hline
-Presentación de material visual & Las diapositivas tienen fondo claro, con elementos visibles y contienen aspectos relevantes. & Presentan dificultad visual pero incluyen aspectos relevantes. & Presentan dificultad visual y carecen de aspectos relevantes. \\
-\hline
-Comunicación y expresión & Voz comprensible, seguridad corporal, atuendo formal o semiformal y respeto. & Voz poco comprensible, inseguridad, pero mantiene formalidad. & Voz no comprensible, inseguridad, atuendo inadecuado o falta de respeto. \\
-\hline
-Respuestas & Respuestas consistentes con lógica operativa. & Respuestas poco consistentes pero con lógica. & Respuestas difusas e incoherentes. \\
-\hline
-\end{longtable}
-
-\vspace{0.5cm}
-
-\noindent
-\textbf{Ponderación final de su exposición:} 40/100
-
-\vspace{0.5cm}
-
-\noindent
-\textbf{Datos de la exposición y evaluación}
-
-\noindent
-Día / Mes / Año
-
-\noindent
-Comentario adicional
-
-\vspace{1cm}
-
-\noindent
-Firma \hspace{3cm} Nombre \hspace{3cm} Correo electrónico
-
-\vspace{0.5cm}
-
-\noindent
-Profesor asesor institucional
 
 \end{document}

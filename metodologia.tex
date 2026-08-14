@@ -1,51 +1,127 @@
-\section{Metodología}
+\section{Metodología / desarrollo}
+\label{ch:metodologia}
 
-Los métodos y herramientas utilizadas son la descripción detallada de las etapas
-(o pasos, procedimiento) de desarrollo en que se dividió el proyecto y están
-íntimamente relacionadas con los objetivos operativos. Se compara con una
-receta de cocina, es decir, describir a detalle las actividades y acciones realizadas
-en cada etapa de desarrollo, empleando un orden cronológico y en función de los
-objetivos operativos. Sus características son:
+\subsection{Diagnóstico inicial}
+\label{sec:diagnostico_inicial}
+
+El estado inicial de la verificación de alertas de AWS ya se describió en Planteamiento del problema: existía un número considerable de alertas activas sin verificar, sin que esa tarea estuviera asignada a una persona en específico.
+
+Para TIBCO Scribe no existía un número exacto de fallas acumuladas, pero sí una carga considerable de trabajo: el monitoreo cubría a dos instituciones educativas clientes de Honne, cada una con alrededor de 16 pestañas de registros (cerca de 32 en total) donde se reportaba si las soluciones, instancias y Agents del cliente estaban funcionando correctamente. Revisar todo esto de forma manual, una por una, era la única forma de detectar fallas.
+
+\subsection{Plan de trabajo}
+\label{sec:plan_trabajo}
+
+La Estadía comenzó el 4 de mayo de 2026. Durante las primeras semanas, el trabajo se realizó completamente en modalidad remota, ya que las oficinas de Honne se encontraban en remodelación. A partir de julio, una vez trasladados a las oficinas físicas, se adoptó una modalidad híbrida: home office los lunes y viernes, y trabajo presencial de martes a jueves. Dentro del equipo existía además una rotación de actividades: a cada integrante le correspondían una o dos actividades principales en un momento dado, además de subtareas de apoyo.
+
+En términos generales, las actividades se distribuyeron de la siguiente manera:
 \begin{itemize}
-\item Descripción detallada de las etapas (o pasos) desarrolladas, las cuales están
-relacionadas con cada objetivo operativos. Dependiendo del número de
-objetivos, será el número de etapas de desarrollo reportadas.
-\item En cada etapa de desarrollo, describir las herramientas académicas, técnicas
-y computacionales que se utilizaron, indicando roles y responsabilidades.
-Además, describir las asignaturas o aprendizajes que se obtuvieron durante tu
-formación académica y fueron útiles en el proceso. Así mismo, describir
-herramientas, equipos, tecnologías, etc., que se utilizaron durante el proyecto o
-se aprendieron en la unidad económica.
+    \item Primer mes: verificación de alertas activas de AWS.
+    \item Segundo mes: revisión de logs de instancias en Google Cloud Platform.
+    \item Tercer mes en adelante: monitoreo de TIBCO Scribe y desarrollo del script de automatización.
 \end{itemize}
 
-\textit{El informe debe estar soportado por referencias, ademas incluir figuras y tablas. En los siguientes parrafos se ejemplifica como usar dichos elementos. }
+El seguimiento a las alertas de ServiceNow se mantuvo como una tarea constante a lo largo de toda la Estadía, sin estar limitado a una etapa específica.
 
-De acuerdo con Ivan \cite{Sistema:2018:Ivan}, todos mienten, de la misma forma que Dr. House lo afirma de manera continua a lo largo de las 8 temporadas de la serie. 
+\subsection{Desarrollo por etapas}
+\label{sec:desarrollo_etapas}
 
-Los sistemas de información constituyen un conjunto organizado de recursos —personas, datos, procesos y tecnología— que interactúan para recolectar, procesar, almacenar y distribuir información relevante dentro de una organización. Su propósito principal es apoyar la toma de decisiones, la coordinación y el control, así como facilitar el análisis y la visualización de información estratégica \cite{laudon2020, stair2018}. En el contexto actual, caracterizado por la digitalización y la globalización, los sistemas de información han evolucionado hacia plataformas integradas que permiten la gestión eficiente del conocimiento y la automatización de procesos empresariales \cite{turban2019}. Además, el uso de tecnologías emergentes como la inteligencia artificial y el análisis de datos ha ampliado sus capacidades, permitiendo generar valor a partir de grandes volúmenes de información \cite{davenport2018}.
+\textbf{Verificación de alertas de AWS.} Esta etapa ya se describió a detalle en Planteamiento del problema: se monitoreaban las alertas activas en la consola de AWS, apoyándose en las métricas de Amazon CloudWatch para distinguir un falso positivo de una falla real, aplicando el umbral de persistencia de 15 minutos descrito en el Marco teórico. La Figura \ref{fig:aws_cloudwatch} muestra un ejemplo de patrón de estrés identificado en las gráficas de CloudWatch.
 
-Por otra parte, la implementación de sistemas de información implica retos importantes relacionados con la alineación estratégica, la seguridad de la información y la gestión del cambio organizacional. Es fundamental que estos sistemas estén alineados con los objetivos del negocio para maximizar su impacto y retorno de inversión \cite{ward2016}. Asimismo, la protección de datos y la ciberseguridad se han convertido en aspectos críticos debido al incremento de amenazas digitales \cite{whitman2018}. Finalmente, el éxito de un sistema de información depende en gran medida de la aceptación por parte de los usuarios y de una adecuada gestión del cambio, lo que requiere capacitación, comunicación efectiva y liderazgo organizacional \cite{heeks2006}.
-
-
-En la figura \ref{fig:my_label}, se muestra una pantalla de una aplicación para contar las calorías de la comida mexicana. (Si la figura se mueve a la siguiente página, es NORMAL, no muevan nada!).
-\begin{figure}[!tbh]
+\begin{figure}[h]
     \centering
-    \includegraphics[width=0.5\linewidth]{img/calorias1.png}
-    \caption{Aplicacion ``Mexican Food with Chilly'' \cite{Microsoft:Concepto}}
-    \label{fig:my_label}
+    \includegraphics[width=0.8\textwidth]{img/figura_aws_cloudwatch.png}
+    \caption{Gráfica de Amazon CloudWatch mostrando un patrón de estrés recurrente.}
+    \label{fig:aws_cloudwatch}
 \end{figure}
 
-En la tabla \ref{tab:my_label}, se muestra una tabla con el listado de los mejores futbolistas del mundo mundial. 
+\textbf{Revisión de logs en Google Cloud Platform.} Se revisaban los registros de las instancias del cliente en la consola de Google Cloud Platform, aplicando dos criterios: si se acumulaban más de 20 registros de error, se consideraba una posible caída del sistema; y si el nivel de latencia de los logs superaba el valor 20 y se mantenía así de forma persistente, también se reportaba como incidente. Este segundo criterio es, de nuevo, un umbral de persistencia: no bastaba con un registro elevado aislado, la condición debía sostenerse en el tiempo (ver Figura \ref{fig:gcp_logs}). El uso de los recursos primarios de la instancia también se supervisaba de forma gráfica (ver Figura \ref{fig:gcp_recursos}).
 
-\begin{table}[!tbh]
+\begin{figure}[h]
     \centering
-    \begin{tabular}{c|c} \hline
-         Estudiante &  Nacionalidad \\ \hline
-         Lionel Messi & Argentina  \\
-         Cristiano Ronaldo & Portuguesa  \\
-         Hector Hermoso Herrera & Mexicana \\ 
-         \hline \hline
-    \end{tabular}
-    \caption{Otro ejemplo de tabla}
-    \label{tab:my_label}
-\end{table}
+    \includegraphics[width=0.8\textwidth]{img/figura_gcp_logs.png}
+    \caption{Registros de error en la consola de Google Cloud Platform.}
+    \label{fig:gcp_logs}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/figura_gcp_latencia.png}
+    \caption{Gráfica de uso de recursos primarios de la instancia en Google Cloud Platform.}
+    \label{fig:gcp_recursos}
+\end{figure}
+
+\textbf{Monitoreo de TIBCO Scribe (Scribesoft).} Antes de automatizarlo, esta revisión se hacía completamente a mano, revisando dos paneles distintos de Scribesoft. El primero era el panel de Agents (ver Figura \ref{fig:tibco_manual}), donde se verificaba que cada agente/instancia estuviera en estado \textit{Running} y no \textit{Heartbeat Failed}. El segundo era el panel de Execution History (ver Figura \ref{fig:tibco_execution_history}), donde el menú desplegable de \textit{Solution} listaba alrededor de 16 soluciones por cada una de las dos instituciones educativas monitoreadas (cerca de 32 en total, como ya se mencionó en el diagnóstico inicial); había que seleccionar cada una, aplicar el filtro y esperar el resultado de la consulta, repitiendo el proceso más de 30 veces por revisión, para identificar en cuál de cuatro estados se encontraba: completado exitosamente (verde), completado con errores (amarillo), en proceso (gris) o error fatal (rojo). Las reglas para considerar una falla real no las definí yo: las obtuve consultando con el personal del área, que ya las aplicaba de forma empírica en su trabajo diario. Quedaron así: más de 10 lecturas consecutivas en gris y más de 10 minutos transcurridos; más de 10 lecturas consecutivas en amarillo, sin importar el tiempo; o una sola lectura en rojo, que se reportaba de inmediato.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/figura_tibco_manual.png}
+    \caption{Panel de Agents de TIBCO Scribe, uno de los dos paneles revisados manualmente antes de la automatización.}
+    \label{fig:tibco_manual}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/figura_tibco_execution_history.png}
+    \caption{Panel de Execution History de TIBCO Scribe, donde se revisaban los cuatro estados de cada solución.}
+    \label{fig:tibco_execution_history}
+\end{figure}
+
+\textbf{Desarrollo del script de monitoreo automatizado.} Ante lo repetitivo del proceso anterior, identifiqué la oportunidad y desarrollé, por iniciativa propia, un script en Python que automatiza esta revisión, aplicando las mismas reglas de conteo y tiempo obtenidas del equipo, y notificando al equipo mediante un bot de Telegram solo cuando una racha cumple la regla, sin repetir el aviso si ya había sido reportada.
+
+El acceso a la plataforma ya existía previamente: Honne cuenta con cuenta activa en Scribesoft como parte de sus herramientas de integración, y usé mi acceso ya autorizado, sin gestionar credenciales nuevas. Scribesoft sí publica una API REST documentada, con un límite de uso de hasta 200 solicitudes por minuto por organización, y se autentica de la misma forma que el panel web: con el usuario y la contraseña de la cuenta. Sin embargo, la consulta específica para obtener el historial de ejecuciones de cada solución no aparece en esa documentación pública. Para identificarla, inspeccioné el tráfico de red del panel web de Scribesoft con las herramientas de desarrollador del navegador, ubiqué la llamada que la página hace a su servidor para obtener ese historial, y la repliqué desde el script en Python, autenticándome con las mismas credenciales que ya usaba para entrar por la interfaz. En esta primera versión el script consultaba esa información cada 2 minutos para todas las soluciones de ambos clientes, y la regla del estado rojo (error fatal) seguía revisándose a mano. Más adelante, por indicación del asesor de la unidad económica, el intervalo se subió a 4 minutos: aunque la consulta se mantenía muy por debajo del límite documentado de la API, hacerla con tanta frecuencia podía interpretarse del otro lado como tráfico de ataque.
+
+La Figura \ref{fig:diagrama_flujo} resume la lógica que sigue la versión final del script en cada revisión, ya con ese intervalo de 4 minutos y con las mejoras descritas en Resultados.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/figura_diagrama_flujo.png}
+    \caption{Diagrama de flujo de la lógica del bot de monitoreo de TIBCO Scribe.}
+    \label{fig:diagrama_flujo}
+\end{figure}
+
+\clearpage
+
+El siguiente fragmento, tomado de la versión final del script, muestra la función que decide si una racha de estados debe reportarse, aplicando las reglas de conteo y tiempo descritas arriba:
+
+\begin{lstlisting}[caption={Función que decide si reportar una alerta, según la regla configurada para cada estado.}, label={lst:debe_reportar}]
+def debe_reportar(estado, inicio, cantidad_en_racha):
+    regla = REGLAS.get(estado)
+
+    if regla is None:
+        return False
+
+    if regla["tipo"] == "conteo":
+        return cantidad_en_racha >= regla["limite"]
+
+    if regla["tipo"] == "tiempo":
+        ahora = datetime.now(timezone.utc)
+        minutos_transcurridos = (ahora - inicio).total_seconds() / 60
+        return minutos_transcurridos >= regla["limite_min"]
+
+    if regla["tipo"] == "conteo_y_tiempo":
+        ahora = datetime.now(timezone.utc)
+        minutos_transcurridos = (ahora - inicio).total_seconds() / 60
+        cumple_conteo = cantidad_en_racha >= regla["limite"]
+        cumple_tiempo = minutos_transcurridos >= regla["limite_min"]
+        return cumple_conteo and cumple_tiempo
+
+    return False
+\end{lstlisting}
+
+Con el uso del script, identifiqué que algunas soluciones estaban en periodo de pruebas y fallaban constantemente, generando falsos positivos de forma repetida y ya conocida por el equipo. Por esa razón se agregó al bot un comando (\texttt{/mute}) para silenciar temporalmente las alertas de esas soluciones específicas, evitando avisos innecesarios sin dejar de vigilar al resto.
+
+\textbf{Seguimiento a ServiceNow.} A diferencia de las otras herramientas, ServiceNow no generaba notificaciones automáticas de error, por lo que había que mantenerse atento a la bandeja de forma constante mientras se realizaban otras tareas, dado que correspondía a un cliente importante (ver Figura \ref{fig:servicenow}). La frecuencia de revisión variaba según la herramienta: GCP se revisaba cada hora, TIBCO Scribe cada 30 minutos, y ServiceNow de forma continua. Hacia el final de la Estadía, un compañero del equipo desarrolló un bot independiente que revisaba ServiceNow cada 12 segundos y notificaba automáticamente los errores; este desarrollo no formó parte de mi trabajo.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/figura_servicenow.png}
+    \caption{Bandeja de alertas de ServiceNow revisada durante la Estadía.}
+    \label{fig:servicenow}
+\end{figure}
+
+De la formación académica, la materia de Redes fue la más aplicada en estas actividades, al tener que aprender a utilizar distintos tipos de \textit{Software as a Service} y familiarizarme con el panel de AWS y CloudWatch.
+
+\subsection{Implementación}
+\label{sec:implementacion}
+
+El script de monitoreo de TIBCO Scribe se implementó y se ejecutó de forma local en mi propio equipo de cómputo, reportando los errores detectados bajo las condiciones descritas en la etapa anterior durante el resto de la Estadía.
